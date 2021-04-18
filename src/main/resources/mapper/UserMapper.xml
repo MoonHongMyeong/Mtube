@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.moon.Mtube.mapper.UserMapper">
+
+    <select id="toExistEmail" resultType="boolean">
+        SELECT EXISTS
+        (SELECT email FROM USER WHERE email = #{email})
+    </select>
+
+    <insert id="insertUser" parameterType="me.moon.Mtube.dto.user.UserSaveRequestDto">
+        INSERT INTO USER(email, password, name, picture, role, isRemoved, created_date, modified_date)
+        VALUES(#{email}, #{password}, #{name}, #{picture}, "USER", "NONE", NOW(), NOW())
+    </insert>
+</mapper>
