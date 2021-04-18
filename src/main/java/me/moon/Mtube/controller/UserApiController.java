@@ -1,7 +1,7 @@
 package me.moon.Mtube.controller;
 
 import lombok.RequiredArgsConstructor;
-import me.moon.Mtube.dto.UserSaveRequestDto;
+import me.moon.Mtube.dto.user.UserSaveRequestDto;
 import me.moon.Mtube.service.UserService;
 import me.moon.Mtube.util.Message;
 import org.springframework.http.HttpStatus;

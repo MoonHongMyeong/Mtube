@@ -1,7 +1,7 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
-import me.moon.Mtube.dto.UserSaveRequestDto;
+import me.moon.Mtube.dto.user.UserSaveRequestDto;
 import me.moon.Mtube.exception.DuplicatedEmailException;
 import me.moon.Mtube.mapper.UserMapper;
 import me.moon.Mtube.util.PasswordEncryptor;

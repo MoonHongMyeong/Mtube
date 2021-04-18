@@ -1,4 +1,4 @@
-package me.moon.Mtube.dto;
+package me.moon.Mtube.dto.user;
 
 import lombok.Builder;
 import lombok.Getter;

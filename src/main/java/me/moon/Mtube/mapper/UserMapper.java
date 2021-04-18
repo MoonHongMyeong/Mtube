@@ -1,6 +1,6 @@
 package me.moon.Mtube.mapper;
 
-import me.moon.Mtube.dto.UserSaveRequestDto;
+import me.moon.Mtube.dto.user.UserSaveRequestDto;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
