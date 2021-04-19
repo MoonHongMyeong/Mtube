@@ -1,6 +1,7 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.dto.user.UserSaveRequestDto;
 import me.moon.Mtube.exception.DuplicatedEmailException;
 import me.moon.Mtube.mapper.UserMapper;
@@ -30,5 +31,10 @@ public class UserService {
 
     private boolean toExistEmail(String email) {
         return userMapper.toExistEmail(email);
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponseDto getUser(Long userId) {
+        return userMapper.getUser(userId);
     }
 }

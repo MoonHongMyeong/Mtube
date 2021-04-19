@@ -1,15 +1,13 @@
 package me.moon.Mtube.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.dto.user.UserSaveRequestDto;
 import me.moon.Mtube.service.UserService;
 import me.moon.Mtube.util.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
@@ -23,5 +21,10 @@ public class UserApiController {
     public ResponseEntity signUp(@RequestBody UserSaveRequestDto saveRequestDto){
         userService.signUp(saveRequestDto);
         return new ResponseEntity(new Message("sign up success!"),HttpStatus.CREATED);
+    }
+    //회원 조회
+    @GetMapping("/{userId}")
+    public UserResponseDto getUser(@PathVariable("userId") Long userId){
+        return userService.getUser(userId);
     }
 }
