@@ -21,4 +21,5 @@ public interface UserMapper {
 
     void changePassword(Long userId, String newPassword);
 
+    void deleteUser(Long userId);
 }

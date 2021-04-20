@@ -64,4 +64,11 @@ public class UserService {
         String encryptPassword = encryptUser(changePasswordDto.getPassword());
         return userMapper.validateUser(userId, encryptPassword);
     }
+
+    public void deleteUser(Long userId) {
+        if(toExistUserById(userId)){
+            throw new IllegalArgumentException("해당 계정이 존재하지 않습니다.");
+        }
+        userMapper.deleteUser(userId);
+    }
 }

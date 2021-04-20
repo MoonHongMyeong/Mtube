@@ -42,4 +42,9 @@ public class UserApiController {
         return new ResponseEntity(new Message("change password success!"), HttpStatus.OK);
     }
 
+    @DeleteMapping("/userId")
+    public ResponseEntity withdrawal(@PathVariable("userId") Long userId){
+        userService.deleteUser(userId);
+        return new ResponseEntity(new Message("withdrawal success!"), HttpStatus.OK);
+    }
 }
