@@ -27,5 +27,15 @@
         UPDATE USER SET name=#{name}, picture=#{picture}
         WHERE id=#{userId}
     </update>
-    
+
+    <select id="validateUser" resultType="boolean">
+        SELECT EXISTS
+        (SELECT id FROM USER WHERE id=#{userId} AND password=#{encryptPassword})
+    </select>
+
+    <update id="changePassword">
+        UPDATE USER SET password=#{newPassword}
+        WHERE id=#{id}
+    </update>
+
 </mapper>

@@ -16,4 +16,9 @@ public interface UserMapper {
     void updateUser(Long userId, String name, String picture);
 
     boolean toExistUserById(Long userId);
+
+    boolean validateUser(Long userId, String encryptPassword);
+
+    void changePassword(Long userId, String newPassword);
+
 }

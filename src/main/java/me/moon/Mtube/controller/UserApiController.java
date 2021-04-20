@@ -36,4 +36,10 @@ public class UserApiController {
         return new ResponseEntity(new Message("update success!"), HttpStatus.OK);
     }
 
+    @PutMapping("/{userId}/password")
+    public ResponseEntity changePassword(@PathVariable("userId") Long userId, @RequestBody UserChangePasswordDto changePasswordDto){
+        userService.changePassword(userId, changePasswordDto);
+        return new ResponseEntity(new Message("change password success!"), HttpStatus.OK);
+    }
+
 }

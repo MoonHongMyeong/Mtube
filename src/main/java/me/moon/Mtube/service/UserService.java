@@ -51,4 +51,17 @@ public class UserService {
     private boolean toExistUserById(Long userId) {
         return userMapper.toExistUserById(userId);
     }
+
+    @Transactional
+    public void changePassword(Long userId, UserChangePasswordDto changePasswordDto) {
+        if(!validateUser(userId, changePasswordDto)){
+            throw new IllegalArgumentException("비밀번호를 잘못 입력했습니다. \n 다시 입력해주세요.");
+        }
+        userMapper.changePassword(userId, changePasswordDto.getNewPassword());
+    }
+
+    private boolean validateUser(Long userId, UserChangePasswordDto changePasswordDto) {
+        String encryptPassword = encryptUser(changePasswordDto.getPassword());
+        return userMapper.validateUser(userId, encryptPassword);
+    }
 }
