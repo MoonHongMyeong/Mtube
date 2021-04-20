@@ -1,8 +1,10 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.user.UserChangePasswordDto;
 import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.dto.user.UserSaveRequestDto;
+import me.moon.Mtube.dto.user.UserUpdateRequestDto;
 import me.moon.Mtube.exception.DuplicatedEmailException;
 import me.moon.Mtube.mapper.UserMapper;
 import me.moon.Mtube.util.PasswordEncryptor;
@@ -36,5 +38,17 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponseDto getUser(Long userId) {
         return userMapper.getUser(userId);
+    }
+
+    @Transactional
+    public void updateUser(Long userId, UserUpdateRequestDto updateRequestDto) {
+        if(toExistUserById(userId)){
+            throw new IllegalArgumentException("해당 계정이 존재하지 않습니다.");
+        }
+        userMapper.updateUser(userId, updateRequestDto.getName(), updateRequestDto.getPicture());
+    }
+
+    private boolean toExistUserById(Long userId) {
+        return userMapper.toExistUserById(userId);
     }
 }

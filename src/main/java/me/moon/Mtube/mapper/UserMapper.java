@@ -12,4 +12,8 @@ public interface UserMapper {
     void insertUser(UserSaveRequestDto userDto);
 
     UserResponseDto getUser(Long userId);
+
+    void updateUser(Long userId, String name, String picture);
+
+    boolean toExistUserById(Long userId);
 }

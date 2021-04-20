@@ -13,8 +13,19 @@
         SELECT id, email, name, picture FROM USER WHERE id=#{userId}
     </select>
 
+    <select id="toExistUserById" resultType="boolean">
+        SELECT EXISTS
+        (SELECT id FROM USER WHERE id=#{id})
+    </select>
+
     <insert id="insertUser" parameterType="me.moon.Mtube.dto.user.UserSaveRequestDto">
         INSERT INTO USER(email, password, name, picture, role, isRemoved, created_date, modified_date)
         VALUES(#{email}, #{password}, #{name}, #{picture}, "USER", "NONE", NOW(), NOW())
     </insert>
+
+    <update id="updateUser">
+        UPDATE USER SET name=#{name}, picture=#{picture}
+        WHERE id=#{userId}
+    </update>
+    
 </mapper>
