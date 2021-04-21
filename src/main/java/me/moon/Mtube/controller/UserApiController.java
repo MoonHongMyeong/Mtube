@@ -1,15 +1,15 @@
 package me.moon.Mtube.controller;
 
 import lombok.RequiredArgsConstructor;
-import me.moon.Mtube.dto.user.UserChangePasswordDto;
-import me.moon.Mtube.dto.user.UserResponseDto;
-import me.moon.Mtube.dto.user.UserSaveRequestDto;
-import me.moon.Mtube.dto.user.UserUpdateRequestDto;
+import me.moon.Mtube.dto.user.*;
+import me.moon.Mtube.service.LoginService;
 import me.moon.Mtube.service.UserService;
 import me.moon.Mtube.util.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserApiController {
 
     private final UserService userService;
+    private final LoginService loginService;
 
     //회원가입
     @PostMapping
@@ -47,4 +48,24 @@ public class UserApiController {
         userService.deleteUser(userId);
         return new ResponseEntity(new Message("withdrawal success!"), HttpStatus.OK);
     }
+
+    //로그인
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody LoginUserDto userDto){
+        Optional<LoginUserDto> user = userService.findUserByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
+        if(user.isPresent()){
+            loginService.loginUser(user.get().getEmail());
+            return new ResponseEntity(new Message("Login Success!"), HttpStatus.OK);
+        }else{
+            return new ResponseEntity(new Message("Login failed..."),HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //로그아웃
+    @GetMapping("/logout")
+    public ResponseEntity logout(){
+        loginService.logoutUser();
+        return new ResponseEntity(new Message("logout success!"), HttpStatus.OK);
+    }
+
 }

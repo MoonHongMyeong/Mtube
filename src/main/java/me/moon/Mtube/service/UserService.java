@@ -1,15 +1,14 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
-import me.moon.Mtube.dto.user.UserChangePasswordDto;
-import me.moon.Mtube.dto.user.UserResponseDto;
-import me.moon.Mtube.dto.user.UserSaveRequestDto;
-import me.moon.Mtube.dto.user.UserUpdateRequestDto;
+import me.moon.Mtube.dto.user.*;
 import me.moon.Mtube.exception.DuplicatedEmailException;
 import me.moon.Mtube.mapper.UserMapper;
 import me.moon.Mtube.util.PasswordEncryptor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -70,5 +69,16 @@ public class UserService {
             throw new IllegalArgumentException("해당 계정이 존재하지 않습니다.");
         }
         userMapper.deleteUser(userId);
+    }
+
+    public Optional<LoginUserDto> findUserByEmailAndPassword(String email, String password) {
+        Optional<LoginUserDto> user = Optional.ofNullable(userMapper.findUserByEmail(email));
+        if(!user.isPresent()){
+            throw new IllegalArgumentException("해당 이메일이 존재하지 않습니다. \n 다시 입력해주세요.");
+        }
+        if(!PasswordEncryptor.isMatch(password,user.get().getPassword())){
+            throw new IllegalArgumentException("비밀번호를 잘못 입력했습니다.");
+        }
+        return user;
     }
 }
