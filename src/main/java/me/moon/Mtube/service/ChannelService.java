@@ -7,6 +7,7 @@ import me.moon.Mtube.dto.channel.ChannelUpdateRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
+import me.moon.Mtube.exception.UnsuitableUserException;
 import me.moon.Mtube.mapper.ChannelMapper;
 import me.moon.Mtube.mapper.UserMapper;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class ChannelService {
         ChannelResponseDto channelDto = channelMapper.getChannel(channelId);
         LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
         if(channelDto.getUser_id() != userDto.getId()){
-            throw new IllegalArgumentException("자신이 등록한 채널만 수정이 가능합니다. \n 잘못 된 요청입니다.");
+            throw new UnsuitableUserException("자신이 등록한 채널만 수정이 가능합니다. \n 잘못 된 요청입니다.");
         }
         updateRequestDto.setId(channelId);
         channelMapper.updateChannel(updateRequestDto);
@@ -49,7 +50,7 @@ public class ChannelService {
         ChannelResponseDto channelDto = channelMapper.getChannel(channelId);
         LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
         if(channelDto.getUser_id() != userDto.getId()){
-            throw new IllegalArgumentException("자신이 등록한 채널만 삭제가 가능합니다. \n 잘못 된 요청입니다.");
+            throw new UnsuitableUserException("자신이 등록한 채널만 삭제가 가능합니다. \n 잘못 된 요청입니다.");
         }
         channelMapper.deleteChannel(channelId);
     }
