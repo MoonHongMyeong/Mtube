@@ -13,5 +13,7 @@ public interface ChannelMapper {
 
     void updateChannel(ChannelUpdateRequestDto updateRequestDto);
 
+    void deleteChannel(Long id);
+
     boolean toExistChannelByName(String name);
 }

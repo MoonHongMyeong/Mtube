@@ -23,4 +23,8 @@
         WHERE id=#{id}
     </update>
 
+    <delete id="deleteChannel">
+        DELETE FROM CHANNEL WHERE id=#{id}
+    </delete>
+
 </mapper>

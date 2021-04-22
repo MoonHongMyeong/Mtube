@@ -42,4 +42,12 @@ public class ChannelApiController {
         return new ResponseEntity(new Message("channel update success!"), HttpStatus.OK);
     }
 
+    //채널 삭제
+    @DeleteMapping("/{channelId}")
+    public ResponseEntity deleteChannel(@PathVariable("channelId") Long channelId){
+        String userEmail = loginUser.getCurrentUser();
+        channelService.deleteChannel(userEmail, channelId);
+        return new ResponseEntity(new Message("channel delete success!"), HttpStatus.OK);
+    }
+
 }

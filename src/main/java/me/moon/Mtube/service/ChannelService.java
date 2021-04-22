@@ -45,5 +45,13 @@ public class ChannelService {
         channelMapper.updateChannel(updateRequestDto);
     }
 
+    public void deleteChannel(String userEmail, Long channelId) {
+        ChannelResponseDto channelDto = channelMapper.getChannel(channelId);
+        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+        if(channelDto.getUser_id() != userDto.getId()){
+            throw new IllegalArgumentException("자신이 등록한 채널만 삭제가 가능합니다. \n 잘못 된 요청입니다.");
+        }
+        channelMapper.deleteChannel(channelId);
+    }
 
 }
