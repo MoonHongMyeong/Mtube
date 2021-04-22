@@ -11,6 +11,7 @@ public interface ChannelMapper {
 
     void addChannel(ChannelSaveRequestDto saveRequestDto);
 
-    boolean toExistChannelByName(String name);
+    void updateChannel(ChannelUpdateRequestDto updateRequestDto);
 
+    boolean toExistChannelByName(String name);
 }

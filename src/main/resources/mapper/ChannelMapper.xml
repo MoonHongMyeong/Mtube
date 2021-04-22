@@ -18,4 +18,9 @@
         VALUES(#{name}, #{description}, #{user_id}, 0, "NONE", NOW(), NOW())
     </insert>
 
+    <update id="updateChannel" parameterType="me.moon.Mtube.dto.channel.ChannelUpdateRequestDto">
+        UPDATE CHANNEL SET description=#{description}, modified_date=NOW()
+        WHERE id=#{id}
+    </update>
+
 </mapper>

@@ -34,4 +34,12 @@ public class ChannelApiController {
         return new ResponseEntity(new Message("channel make success!"), HttpStatus.CREATED);
     }
 
+    //채널 수정
+    @PutMapping("/{channelId}")
+    public ResponseEntity updateChannel(@PathVariable("channelId") Long channelId, @RequestBody ChannelUpdateRequestDto updateRequestDto){
+        String userEmail = loginUser.getCurrentUser();
+        channelService.updateChannel(userEmail, channelId, updateRequestDto);
+        return new ResponseEntity(new Message("channel update success!"), HttpStatus.OK);
+    }
+
 }

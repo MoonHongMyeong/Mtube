@@ -35,5 +35,15 @@ public class ChannelService {
         return channelMapper.toExistChannelByName(name);
     }
 
+    public void updateChannel(String userEmail, Long channelId, ChannelUpdateRequestDto updateRequestDto) {
+        ChannelResponseDto channelDto = channelMapper.getChannel(channelId);
+        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+        if(channelDto.getUser_id() != userDto.getId()){
+            throw new IllegalArgumentException("자신이 등록한 채널만 수정이 가능합니다. \n 잘못 된 요청입니다.");
+        }
+        updateRequestDto.setId(channelId);
+        channelMapper.updateChannel(updateRequestDto);
+    }
+
 
 }
