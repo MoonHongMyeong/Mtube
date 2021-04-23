@@ -50,4 +50,10 @@ public class ChannelApiController {
         return new ResponseEntity(new Message("channel delete success!"), HttpStatus.OK);
     }
 
+    //채널 플레이리스트 생성
+    @PostMapping("/{channelId}/playlist")
+    public ResponseEntity addChannelPlaylist(@PathVariable("channelId") Long channelId, @RequestBody ChannelPlaylistSaveRequestDto saveRequestDto){
+        channelService.addChannelPlaylist(channelId,saveRequestDto);
+        return new ResponseEntity(new Message("playlist create success!"), HttpStatus.CREATED);
+    }
 }

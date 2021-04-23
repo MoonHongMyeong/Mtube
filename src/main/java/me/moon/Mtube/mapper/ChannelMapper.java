@@ -4,7 +4,6 @@ import me.moon.Mtube.dto.channel.ChannelResponseDto;
 import me.moon.Mtube.dto.channel.ChannelSaveRequestDto;
 import me.moon.Mtube.dto.channel.ChannelUpdateRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
-import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
 
 public interface ChannelMapper {
     ChannelResponseDto getChannel(Long id);
@@ -16,4 +15,8 @@ public interface ChannelMapper {
     void deleteChannel(Long id);
 
     boolean toExistChannelByName(String name);
+
+    void addChannelPlaylist(ChannelPlaylistSaveRequestDto saveRequestDto);
+
+    Long getChannelIdByChannelName(String name);
 }

@@ -30,6 +30,14 @@ public class ChannelService {
         LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
         saveRequestDto.setUser(userDto.getId());
         channelMapper.addChannel(saveRequestDto);
+
+        //채널 생성 시 '일반' 플레이리스트 추가
+        Long channelId = channelMapper.getChannelIdByChannelName(saveRequestDto.getName());
+        ChannelPlaylistSaveRequestDto playlistSaveRequestDto = ChannelPlaylistSaveRequestDto.builder()
+                .channelId(channelId)
+                .name("일반")
+                .build();
+        channelMapper.addChannelPlaylist(playlistSaveRequestDto);
     }
 
     private boolean toExistChannelByName(String name) {
@@ -53,6 +61,15 @@ public class ChannelService {
             throw new UnsuitableUserException("자신이 등록한 채널만 삭제가 가능합니다. \n 잘못 된 요청입니다.");
         }
         channelMapper.deleteChannel(channelId);
+    }
+
+    /*
+    채널 플레이리스트
+    */
+
+    public void addChannelPlaylist(Long channelId, ChannelPlaylistSaveRequestDto saveRequestDto) {
+        saveRequestDto.setChannelId(channelId);
+        channelMapper.addChannelPlaylist(saveRequestDto);
     }
 
 }
