@@ -36,4 +36,9 @@
         SELECT id FROM CHANNEL WHERE name=#{name}
     </select>
 
+    <update id="updateChannelPlaylist" parameterType="me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto">
+        UPDATE CHANNEL_PLAYLIST_NAME SET name=#{name}, modified_date=NOW()
+        WHERE id=#{id}
+    </update>
+
 </mapper>

@@ -72,4 +72,9 @@ public class ChannelService {
         channelMapper.addChannelPlaylist(saveRequestDto);
     }
 
+    public void updateChannelPlaylist(Long playlistId, ChannelPlaylistUpdateRequestDto updateRequestDto) {
+        updateRequestDto.setId(playlistId);
+        channelMapper.updateChannelPlaylist(updateRequestDto);
+    }
+
 }

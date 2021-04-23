@@ -56,4 +56,10 @@ public class ChannelApiController {
         channelService.addChannelPlaylist(channelId,saveRequestDto);
         return new ResponseEntity(new Message("playlist create success!"), HttpStatus.CREATED);
     }
+    //채널 플레이리스트 수정
+    @PutMapping("/{channelId}/playlist/{playlistId}")
+    public ResponseEntity updateChannelPlaylist(@PathVariable("playlistId") Long playlistId, @RequestBody ChannelPlaylistUpdateRequestDto updateRequestDto){
+        channelService.updateChannelPlaylist(playlistId, updateRequestDto);
+        return new ResponseEntity(new Message("playlist update success!"), HttpStatus.OK);
+    }
 }
