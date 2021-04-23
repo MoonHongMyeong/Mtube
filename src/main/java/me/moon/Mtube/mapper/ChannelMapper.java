@@ -21,6 +21,7 @@ public interface ChannelMapper {
 
     void updateChannelPlaylist(ChannelPlaylistUpdateRequestDto updateRequestDto);
 
+    void deleteChannelPlaylist(Long playlistId);
 
     Long getChannelIdByChannelName(String name);
 }

@@ -62,4 +62,10 @@ public class ChannelApiController {
         channelService.updateChannelPlaylist(playlistId, updateRequestDto);
         return new ResponseEntity(new Message("playlist update success!"), HttpStatus.OK);
     }
+    //채널 플레이리스트 삭제
+    @DeleteMapping("/{channelId}/playlist/{playlistId}")
+    public ResponseEntity deleteChannelPlaylist(@PathVariable("playlistId") Long playlistId){
+        channelService.deleteChannelPlaylist(playlistId);
+        return new ResponseEntity(new Message("playlist delete success!"), HttpStatus.OK);
+    }
 }

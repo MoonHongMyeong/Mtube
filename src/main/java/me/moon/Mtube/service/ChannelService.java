@@ -77,4 +77,7 @@ public class ChannelService {
         channelMapper.updateChannelPlaylist(updateRequestDto);
     }
 
+    public void deleteChannelPlaylist(Long playlistId) {
+        channelMapper.deleteChannelPlaylist(playlistId);
+    }
 }

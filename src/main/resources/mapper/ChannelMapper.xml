@@ -41,4 +41,7 @@
         WHERE id=#{id}
     </update>
 
+    <delete id="deleteChannelPlaylist">
+        DELETE FROM CHANNEL_PLAYLIST_NAME WHERE id=#{id}
+    </delete>
 </mapper>
