@@ -44,4 +44,9 @@
     <delete id="deleteChannelPlaylist">
         DELETE FROM CHANNEL_PLAYLIST_NAME WHERE id=#{id}
     </delete>
+
+    <select id="isMatchChannelByUserId" resultType="boolean">
+        SELECT EXISTS
+        (SELECT id FROM CHANNEL WHERE user_id=#{userId} AND id=#{channelId})
+    </select>
 </mapper>
