@@ -24,4 +24,6 @@ public interface ChannelMapper {
     void deleteChannelPlaylist(Long playlistId);
 
     Long getChannelIdByChannelName(String name);
+
+    boolean isMatchChannelByUserId(Long userId, Long channelId);
 }

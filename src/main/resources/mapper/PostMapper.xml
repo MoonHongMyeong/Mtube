@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.moon.Mtube.mapper.PostMapper">
+    <select id="getPostList">
+        SELECT * FROM VIDEO_POST WHERE isRemoved="NONE"
+    </select>
+
+    <select id="getChannelPostList">
+        SELECT * FROM VIDEO_POST WHERE isRemoved="NONE" AND channel_id=#{channelId}
+    </select>
+
+    <update id="plusViewCount" parameterType="int">
+        UPDATE VIDEO_POST SET view_count = view_count + 1 WHERE id=#{postId}
+    </update>
+
+    <select id="getPost" resultType="me.moon.Mtube.dto.post.PostResponseDto">
+        SELECT v.id, v.channel_id, c.name, v.category, p.name, v.title, v.content, v.video_file, v.view_count, v.permit_comment, v.created_date
+        FROM VIDEO_POST v, CHANNEL c, CHANNEL_PLAYLIST p WHERE v.channel_id=c.id AND p.channel_id=c.id
+    </select>
+
+    <insert id="addPost" parameterMap="me.moon.Mtube.dto.post.PostSaveRequestDto">
+        INSERT INTO VIDEO_POST(channel_id, category, playlist, title, video_file, content, view_count, permit_comment, isRemoved, temp, created_date, modified_date)
+        VALUES(#{channelId}, #{category}, #{playlist}, #{title}, #{video_file}, #{content}, 0, #{permit_comment}, "NONE", "NONE", NOW(), NOW()
+    </insert>
+
+    <insert id="addTempPost" parameterMap="me.moon.Mtube.dto.post.PostSaveRequestDto">
+        INSERT INTO VIDEO_POST(channel_id, category, playlist, title, video_file, content, view_count, permit_comment, isRemoved, temp, created_date, modified_date)
+        VALUES(#{channelId}, #{category}, #{playlist}, #{title}, #{video_file}, #{content}, 0, #{permit_comment}, "NONE", "TEMP", NOW(), NOW()
+    </insert>
+
+    <update id="updatePost" parameterMap="me.moon.Mtube.dto.post.PostUpdateRequestDto">
+        UPDATE VIDEO_POST SET category=#{category}, playlist=#{playlist}, title=#{title}, video_file=#{videoFile}, content=#{content}
+        WHERE id=#{id}
+    </update>
+
+    <update id="deletePost">
+        UPDATE VIDEO_POST SET isRemoved="REMOVED", modified_date=NOW()
+        WHERE id=#{id}
+    </update>
+
+</mapper>
