@@ -24,4 +24,11 @@ public class PostApiController {
         postService.addPost(userEmail, channelId, saveRequestDto);
         return new ResponseEntity(new Message("post add success!"), HttpStatus.CREATED);
     }
+    //임시 포스트 등록
+    @PostMapping("/api/v1/channel/{channelId}/video/temp")
+    public ResponseEntity addTempPost(@PathVariable("channelId") Long channelId ,@RequestBody PostSaveRequestDto saveRequestDto){
+        String userEmail = loginUser.getCurrentUser();
+        postService.addTempPost(userEmail, channelId, saveRequestDto);
+        return new ResponseEntity(new Message("temp post add success"), HttpStatus.CREATED);
+    }
 }

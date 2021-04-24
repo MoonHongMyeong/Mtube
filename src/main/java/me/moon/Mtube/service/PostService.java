@@ -30,4 +30,13 @@ public class PostService {
     private boolean isMatchChannelByUserId(Long userId, Long channelId) {
         return channelMapper.isMatchChannelByUserId(userId, channelId);
     }
+
+    public void addTempPost(String userEmail, Long channelId, PostSaveRequestDto saveRequestDto) {
+        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+        Long userId = userDto.getId();
+        if(!isMatchChannelByUserId(userId, channelId)){
+            throw new UnsuitableUserException("본인의 채널이 아닙니다. \n 본인의 채널에서만 포스트를 임시 등록할 수 있습니다.");
+        }
+        postMapper.addTempPost(saveRequestDto);
+    }
 }

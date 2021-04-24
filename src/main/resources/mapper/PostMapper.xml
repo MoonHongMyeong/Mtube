@@ -2,10 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.moon.Mtube.mapper.PostMapper">
-
     <insert id="addPost" parameterMap="me.moon.Mtube.dto.post.PostSaveRequestDto">
         INSERT INTO VIDEO_POST(channel_id, category, playlist, title, video_file, content, view_count, permit_comment, isRemoved, temp, created_date, modified_date)
         VALUES(#{channelId}, #{category}, #{playlist}, #{title}, #{video_file}, #{content}, 0, #{permit_comment}, "NONE", "NONE", NOW(), NOW()
     </insert>
 
+    <insert id="addTempPost" parameterMap="me.moon.Mtube.dto.post.PostSaveRequestDto">
+        INSERT INTO VIDEO_POST(channel_id, category, playlist, title, video_file, content, view_count, permit_comment, isRemoved, temp, created_date, modified_date)
+        VALUES(#{channelId}, #{category}, #{playlist}, #{title}, #{video_file}, #{content}, 0, #{permit_comment}, "NONE", "TEMP", NOW(), NOW()
+    </insert>
 </mapper>
