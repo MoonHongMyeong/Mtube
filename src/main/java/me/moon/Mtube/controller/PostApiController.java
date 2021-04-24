@@ -39,4 +39,11 @@ public class PostApiController {
         postService.updatePost(userEmail, channelId, postId, updateRequestDto);
         return new ResponseEntity(new Message("post update success!"),HttpStatus.OK);
     }
+    //포스트 삭제
+    @DeleteMapping("/api/v1/channel/{channelId}/video/{postId}")
+    public ResponseEntity deletePost(@PathVariable("channelId") Long channelId, @PathVariable("postId")Long postId){
+        String userEmail = loginUser.getCurrentUser();
+        postService.deletePost(userEmail, channelId, postId);
+        return new ResponseEntity(new Message("post delete success!"), HttpStatus.OK);
+    }
 }

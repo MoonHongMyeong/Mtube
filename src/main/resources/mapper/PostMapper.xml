@@ -18,4 +18,9 @@
         WHERE id=#{id}
     </update>
 
+    <update id="deletePost">
+        UPDATE VIDEO_POST SET isRemoved="REMOVED", modified_date=NOW()
+        WHERE id=#{id}
+    </update>
+
 </mapper>

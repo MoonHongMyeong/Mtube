@@ -1,10 +1,8 @@
 package me.moon.Mtube.mapper;
 
-import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.post.PostSaveRequestDto;
 import me.moon.Mtube.dto.post.PostUpdateRequestDto;
 
-import java.util.List;
 
 public interface PostMapper {
 
@@ -13,5 +11,7 @@ public interface PostMapper {
     void addTempPost(PostSaveRequestDto saveRequestDto);
 
     void updatePost(PostUpdateRequestDto updateRequestDto);
+
+    void deletePost(Long id);
 
 }

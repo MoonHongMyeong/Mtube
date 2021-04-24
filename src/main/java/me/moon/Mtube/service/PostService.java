@@ -10,7 +10,6 @@ import me.moon.Mtube.mapper.PostMapper;
 import me.moon.Mtube.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
-
 @RequiredArgsConstructor
 @Service
 public class PostService {
@@ -48,6 +47,15 @@ public class PostService {
             throw new UnsuitableUserException("본인의 채널이 아닙니다. \n 본인의 채널에서만 작성한 포스트를 수정할 수 있습니다.");
         }
         postMapper.updatePost(updateRequestDto);
+    }
+
+    public void deletePost(String userEmail, Long channelId, Long postId) {
+        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+        Long userId = userDto.getId();
+        if(!isMatchChannelByUserId(userId, channelId)){
+            throw new UnsuitableUserException("본인의 채널이 아닙니다. \n 본인의 채널에서만 작성한 포스트를 삭제할 수 있습니다.");
+        }
+        postMapper.deletePost(postId);
     }
 
 }
