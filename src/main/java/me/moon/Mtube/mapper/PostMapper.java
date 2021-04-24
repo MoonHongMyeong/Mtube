@@ -9,6 +9,8 @@ import java.util.List;
 public interface PostMapper {
     List<PostResponseDto> getPostList();
 
+    List<PostResponseDto> getChannelPostList(Long channelId);
+
     void plusViewCount(Long postId);
 
     PostResponseDto getPost(Long postId);

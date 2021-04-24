@@ -30,6 +30,9 @@ public class PostService {
         return postMapper.getPost(postId);
     }
 
+    public List<PostResponseDto> getChannelPostList(Long channelId) {
+        return postMapper.getChannelPostList(channelId);
+    }
 
     public void addPost(String userEmail, Long channelId, PostSaveRequestDto saveRequestDto) {
         LoginUserDto userDto = userMapper.findUserByEmail(userEmail);

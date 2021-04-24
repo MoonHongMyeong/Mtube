@@ -6,6 +6,10 @@
         SELECT * FROM VIDEO_POST WHERE isRemoved="NONE"
     </select>
 
+    <select id="getChannelPostList">
+        SELECT * FROM VIDEO_POST WHERE isRemoved="NONE" AND channel_id=#{channelId}
+    </select>
+
     <update id="plusViewCount" parameterType="int">
         UPDATE VIDEO_POST SET view_count = view_count + 1 WHERE id=#{postId}
     </update>

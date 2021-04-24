@@ -30,6 +30,11 @@ public class PostApiController {
     public PostResponseDto getPost(@PathVariable("postId") Long postId){
         return postService.getPost(postId);
     }
+    //채널에 등록된 포스트 조회
+    @GetMapping("/api/v1/channel/{channelId}/video")
+    public List<PostResponseDto> getChannelPostList(@PathVariable("channelId") Long channelId){
+        return postService.getChannelPostList(channelId);
+    }
     //포스트 등록
     @PostMapping("/api/v1/channel/{channelId}/video")
     public ResponseEntity addPost(@PathVariable("channelId") Long channelId, @RequestBody PostSaveRequestDto saveRequestDto){
