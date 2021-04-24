@@ -1,6 +1,7 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.post.PostSaveRequestDto;
 import me.moon.Mtube.dto.post.PostUpdateRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
@@ -10,6 +11,7 @@ import me.moon.Mtube.mapper.PostMapper;
 import me.moon.Mtube.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
+
 @RequiredArgsConstructor
 @Service
 public class PostService {
@@ -17,6 +19,11 @@ public class PostService {
     private final UserMapper userMapper;
     private final ChannelMapper channelMapper;
     private final PostMapper postMapper;
+
+    public PostResponseDto getPost(Long postId) {
+        postMapper.plusViewCount(postId);
+        return postMapper.getPost(postId);
+    }
 
     public void addPost(String userEmail, Long channelId, PostSaveRequestDto saveRequestDto) {
         LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
@@ -57,5 +64,6 @@ public class PostService {
         }
         postMapper.deletePost(postId);
     }
+
 
 }

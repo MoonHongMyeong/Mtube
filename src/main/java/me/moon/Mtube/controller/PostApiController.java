@@ -1,6 +1,7 @@
 package me.moon.Mtube.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.post.PostSaveRequestDto;
 import me.moon.Mtube.dto.post.PostUpdateRequestDto;
 import me.moon.Mtube.service.PostService;
@@ -10,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RequiredArgsConstructor
 @RestController
 public class PostApiController {
@@ -18,6 +18,11 @@ public class PostApiController {
     private final PostService postService;
     private final SessionLoginUser loginUser;
 
+    //포스트 조회
+    @GetMapping("/api/v1/video/{postId}")
+    public PostResponseDto getPost(@PathVariable("postId") Long postId){
+        return postService.getPost(postId);
+    }
     //포스트 등록
     @PostMapping("/api/v1/channel/{channelId}/video")
     public ResponseEntity addPost(@PathVariable("channelId") Long channelId, @RequestBody PostSaveRequestDto saveRequestDto){
