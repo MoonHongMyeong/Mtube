@@ -11,6 +11,7 @@ import me.moon.Mtube.mapper.PostMapper;
 import me.moon.Mtube.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -20,10 +21,15 @@ public class PostService {
     private final ChannelMapper channelMapper;
     private final PostMapper postMapper;
 
+    public List<PostResponseDto> getPostList() {
+        return postMapper.getPostList();
+    }
+
     public PostResponseDto getPost(Long postId) {
         postMapper.plusViewCount(postId);
         return postMapper.getPost(postId);
     }
+
 
     public void addPost(String userEmail, Long channelId, PostSaveRequestDto saveRequestDto) {
         LoginUserDto userDto = userMapper.findUserByEmail(userEmail);

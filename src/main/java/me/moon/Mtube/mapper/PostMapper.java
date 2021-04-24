@@ -4,7 +4,11 @@ import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.post.PostSaveRequestDto;
 import me.moon.Mtube.dto.post.PostUpdateRequestDto;
 
+import java.util.List;
+
 public interface PostMapper {
+    List<PostResponseDto> getPostList();
+
     void plusViewCount(Long postId);
 
     PostResponseDto getPost(Long postId);

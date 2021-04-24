@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 public class PostApiController {
@@ -18,6 +20,11 @@ public class PostApiController {
     private final PostService postService;
     private final SessionLoginUser loginUser;
 
+    //포스트 목록 조회
+    @GetMapping("/api/v1/video")
+    public List<PostResponseDto> getPostList(){
+        return postService.getPostList();
+    }
     //포스트 조회
     @GetMapping("/api/v1/video/{postId}")
     public PostResponseDto getPost(@PathVariable("postId") Long postId){
