@@ -2,6 +2,7 @@ package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.post.PostSaveRequestDto;
+import me.moon.Mtube.dto.post.PostUpdateRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
 import me.moon.Mtube.exception.UnsuitableUserException;
 import me.moon.Mtube.mapper.ChannelMapper;
@@ -39,4 +40,14 @@ public class PostService {
         }
         postMapper.addTempPost(saveRequestDto);
     }
+
+    public void updatePost(String userEmail, Long channelId, Long postId, PostUpdateRequestDto updateRequestDto) {
+        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+        Long userId = userDto.getId();
+        if(!isMatchChannelByUserId(userId, channelId)){
+            throw new UnsuitableUserException("본인의 채널이 아닙니다. \n 본인의 채널에서만 작성한 포스트를 수정할 수 있습니다.");
+        }
+        postMapper.updatePost(updateRequestDto);
+    }
+
 }

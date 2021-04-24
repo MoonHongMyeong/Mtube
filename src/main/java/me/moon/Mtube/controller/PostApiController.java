@@ -2,6 +2,7 @@ package me.moon.Mtube.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.post.PostSaveRequestDto;
+import me.moon.Mtube.dto.post.PostUpdateRequestDto;
 import me.moon.Mtube.service.PostService;
 import me.moon.Mtube.service.SessionLoginUser;
 import me.moon.Mtube.util.Message;
@@ -30,5 +31,12 @@ public class PostApiController {
         String userEmail = loginUser.getCurrentUser();
         postService.addTempPost(userEmail, channelId, saveRequestDto);
         return new ResponseEntity(new Message("temp post add success"), HttpStatus.CREATED);
+    }
+    //포스트 수정
+    @PutMapping("/api/v1/channel/{channelId}/video/{postId}")
+    public ResponseEntity updatePost(@PathVariable("channelId") Long channelId, @PathVariable("postId") Long postId, @RequestBody PostUpdateRequestDto updateRequestDto){
+        String userEmail = loginUser.getCurrentUser();
+        postService.updatePost(userEmail, channelId, postId, updateRequestDto);
+        return new ResponseEntity(new Message("post update success!"),HttpStatus.OK);
     }
 }
