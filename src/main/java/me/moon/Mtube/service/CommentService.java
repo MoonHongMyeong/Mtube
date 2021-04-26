@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.comment.CommentResponseDto;
 import me.moon.Mtube.dto.comment.CommentSaveRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
+import me.moon.Mtube.exception.UnsuitableUserException;
 import me.moon.Mtube.mapper.CommentMapper;
 import me.moon.Mtube.mapper.UserMapper;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class CommentService {
     private final CommentMapper commentMapper;
     private final UserMapper userMapper;
 
-    public List<CommentResponseDto> getComment(Long postId) {
-        return commentMapper.getComment(postId);
+    public List<CommentResponseDto> getCommentList(Long postId) {
+        return commentMapper.getCommentList(postId);
     }
 
     public void addComment(String userEmail, Long postId, CommentSaveRequestDto saveRequestDto) {
@@ -35,4 +36,5 @@ public class CommentService {
         saveRequestDto.setParent(parent);
         commentMapper.addComment(saveRequestDto);
     }
+
 }

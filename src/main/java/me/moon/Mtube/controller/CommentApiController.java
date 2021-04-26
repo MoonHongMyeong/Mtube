@@ -23,7 +23,7 @@ public class CommentApiController {
     //댓글 리스트 조회
     @GetMapping
     public List<CommentResponseDto> getComment(@PathVariable("postId") Long postId){
-        return commentService.getComment(postId);
+        return commentService.getCommentList(postId);
     }
     //댓글 등록
     @PostMapping
@@ -38,4 +38,5 @@ public class CommentApiController {
         commentService.addReplies(userEmail, parent, postId, saveRequestDto);
         return new ResponseEntity(new Message("comment add success!"), HttpStatus.CREATED);
     }
+
 }

@@ -6,7 +6,9 @@ import me.moon.Mtube.dto.comment.CommentSaveRequestDto;
 import java.util.List;
 
 public interface CommentMapper {
-    List<CommentResponseDto> getComment(Long postId);
+    List<CommentResponseDto> getCommentList(Long postId);
 
     void addComment(CommentSaveRequestDto saveRequestDto);
+
+    CommentResponseDto getComment(Long commentId);
 }
