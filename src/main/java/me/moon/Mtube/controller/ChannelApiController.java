@@ -7,6 +7,7 @@ import me.moon.Mtube.dto.channel.ChannelUpdateRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
 import me.moon.Mtube.service.ChannelService;
+import me.moon.Mtube.service.CommentService;
 import me.moon.Mtube.service.SessionLoginUser;
 import me.moon.Mtube.util.Message;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class ChannelApiController {
 
     private final ChannelService channelService;
+    private final CommentService commentService;
     private final SessionLoginUser loginUser;
 
     //채널 조회
@@ -67,5 +69,15 @@ public class ChannelApiController {
     public ResponseEntity deleteChannelPlaylist(@PathVariable("playlistId") Long playlistId){
         channelService.deleteChannelPlaylist(playlistId);
         return new ResponseEntity(new Message("playlist delete success!"), HttpStatus.OK);
+    }
+
+    //채널관리자의 댓글 조회
+
+    //채널관리자의 댓글 삭제
+    @DeleteMapping("/{channelId}/comment/{commentId}")
+    public ResponseEntity videoOwnerDeleteComment(@PathVariable("channelId") Long channelId, @PathVariable("commentId") Long commentId){
+        String userEmail = loginUser.getCurrentUser();
+        channelService.deleteCommentByVideoOwner(channelId, commentId, userEmail);
+        return new ResponseEntity(new Message("댓글을 삭제했습니다."), HttpStatus.OK);
     }
 }
