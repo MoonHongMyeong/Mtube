@@ -39,4 +39,10 @@ public class CommentApiController {
         return new ResponseEntity(new Message("comment add success!"), HttpStatus.CREATED);
     }
 
+    @PutMapping("/{commentId}")
+    public ResponseEntity updateComment(@PathVariable("commentId") Long commentId, @RequestParam("content") String content){
+        String userEmail = sessionLoginUser.getCurrentUser();
+        commentService.updateComment(userEmail, commentId, content);
+        return new ResponseEntity(new Message("comment update success!"), HttpStatus.OK);
+    }
 }

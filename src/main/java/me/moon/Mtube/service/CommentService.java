@@ -37,4 +37,20 @@ public class CommentService {
         commentMapper.addComment(saveRequestDto);
     }
 
+    public void updateComment(String userEmail, Long commentId, String content) {
+        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+        if(isMatchCommentByUserId(userDto.getId(), commentId)){
+            throw new UnsuitableUserException("본인이 작성한 댓글만 수정이 가능합니다.");
+        }
+        commentMapper.updateComment(commentId, content);
+    }
+
+    private boolean isMatchCommentByUserId(Long commentId, Long userId) {
+        CommentResponseDto commentDto = commentMapper.getComment(commentId);
+        if(commentDto.getUser_id() != userId){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

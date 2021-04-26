@@ -14,4 +14,9 @@
         INSERT INTO COMMENT(content,user_id, like_count, dislike_count, heart, parent, isRemoved, created_date, modified_date, video_post_id)
         VALUES (#{content}, #{userId}, 0, 0, "NONE", #{parent}, "NONE", NOW(), NOW(), #{video_post_id})
     </insert>
+
+    <update id="updateComment">
+        UPDATE COMMENT SET content=#{content}, modified_date=NOW()
+        WHERE id=#{commentId}
+    </update>
 </mapper>

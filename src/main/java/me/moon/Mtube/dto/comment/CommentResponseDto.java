@@ -11,4 +11,5 @@ public class CommentResponseDto {
     private int dislike_count;
     private String heart;
     private Long parent;
+    private Long user_id;
 }

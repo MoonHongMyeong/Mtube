@@ -11,4 +11,6 @@ public interface CommentMapper {
     void addComment(CommentSaveRequestDto saveRequestDto);
 
     CommentResponseDto getComment(Long commentId);
+
+    void updateComment(Long commentId, String content);
 }
