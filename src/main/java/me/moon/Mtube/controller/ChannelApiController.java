@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.channel.ChannelResponseDto;
 import me.moon.Mtube.dto.channel.ChannelSaveRequestDto;
 import me.moon.Mtube.dto.channel.ChannelUpdateRequestDto;
+import me.moon.Mtube.dto.comment.ChannelCommentResponseDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
 import me.moon.Mtube.service.ChannelService;
@@ -13,6 +14,8 @@ import me.moon.Mtube.util.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/api/v1/channel")
 @RestController
@@ -72,6 +75,10 @@ public class ChannelApiController {
     }
 
     //채널관리자의 댓글 조회
+    @GetMapping("/{channelId}/comment")
+    public List<ChannelCommentResponseDto> videoOwnerGetCommentList(@PathVariable("channelId") Long channelId){
+        return channelService.videoOwnerGetCommentList(channelId);
+    }
 
     //채널관리자의 댓글 삭제
     @DeleteMapping("/{channelId}/comment/{commentId}")

@@ -1,5 +1,6 @@
 package me.moon.Mtube.mapper;
 
+import me.moon.Mtube.dto.comment.ChannelCommentResponseDto;
 import me.moon.Mtube.dto.comment.CommentResponseDto;
 import me.moon.Mtube.dto.comment.CommentSaveRequestDto;
 
@@ -15,4 +16,6 @@ public interface CommentMapper {
     void updateComment(Long commentId, String content);
 
     void deleteComment(Long commentId);
+
+    List<ChannelCommentResponseDto> videoOwnerGetCommentList(Long channelId);
 }

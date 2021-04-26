@@ -24,4 +24,9 @@
         UPDATE COMMENT SET isRemoved="DELETED" AND modified_date=NOW()
         WHERE id=#{commentId}
     </update>
+
+    <select id="videoOwnerGetCommentList">
+        SELECT c.user_id, c.content, c.like_count, c.dislike_count, c.heart, c. parent, c.video_post_id, c.modified_date
+        FROM COMMENT c,VIDEO_POST v WHERE v.id = c.video_post_id AND v.channel_id = #{channelId}
+    </select>
 </mapper>

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.channel.ChannelResponseDto;
 import me.moon.Mtube.dto.channel.ChannelSaveRequestDto;
 import me.moon.Mtube.dto.channel.ChannelUpdateRequestDto;
+import me.moon.Mtube.dto.comment.ChannelCommentResponseDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
@@ -12,6 +13,8 @@ import me.moon.Mtube.mapper.ChannelMapper;
 import me.moon.Mtube.mapper.CommentMapper;
 import me.moon.Mtube.mapper.UserMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -93,5 +96,9 @@ public class ChannelService {
             throw new UnsuitableUserException("본인이 작성한 포스트의 댓글만 삭제 가능합니다.");
         }
         commentMapper.deleteComment(commentId);
+    }
+
+    public List<ChannelCommentResponseDto> videoOwnerGetCommentList(Long channelId) {
+        return commentMapper.videoOwnerGetCommentList(channelId);
     }
 }
