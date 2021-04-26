@@ -12,4 +12,5 @@ public class CommentResponseDto {
     private String heart;
     private Long parent;
     private Long user_id;
+    private String isRemoved;
 }

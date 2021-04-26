@@ -13,4 +13,6 @@ public interface CommentMapper {
     CommentResponseDto getComment(Long commentId);
 
     void updateComment(Long commentId, String content);
+
+    void deleteComment(Long commentId);
 }

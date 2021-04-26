@@ -32,17 +32,25 @@ public class CommentApiController {
         commentService.addComment(userEmail ,postId, saveRequestDto);
         return new ResponseEntity(new Message("comment add success!"), HttpStatus.CREATED);
     }
+    //대댓글 등록
     @PostMapping("/{commentId}")
     public ResponseEntity addReplies(@PathVariable("commentId") Long parent, @PathVariable("postId") Long postId, @RequestBody CommentSaveRequestDto saveRequestDto){
         String userEmail = sessionLoginUser.getCurrentUser();
         commentService.addReplies(userEmail, parent, postId, saveRequestDto);
         return new ResponseEntity(new Message("comment add success!"), HttpStatus.CREATED);
     }
-
+    //댓글 수정
     @PutMapping("/{commentId}")
     public ResponseEntity updateComment(@PathVariable("commentId") Long commentId, @RequestParam("content") String content){
         String userEmail = sessionLoginUser.getCurrentUser();
         commentService.updateComment(userEmail, commentId, content);
         return new ResponseEntity(new Message("comment update success!"), HttpStatus.OK);
+    }
+    //댓글 삭제
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity deleteComment(@PathVariable("commentId") Long commentId){
+        String userEmail = sessionLoginUser.getCurrentUser();
+        commentService.deleteComment(userEmail, commentId);
+        return new ResponseEntity(new Message("comment delete success!"), HttpStatus.OK);
     }
 }

@@ -47,10 +47,21 @@ public class CommentService {
 
     private boolean isMatchCommentByUserId(Long commentId, Long userId) {
         CommentResponseDto commentDto = commentMapper.getComment(commentId);
+        if(commentDto.getIsRemoved() == "DELETED"){
+            throw new IllegalArgumentException("이미 삭제 된 댓글 입니다.");
+        }
         if(commentDto.getUser_id() != userId){
             return true;
         }else{
             return false;
         }
+    }
+
+    public void deleteComment(String userEmail, Long commentId) {
+        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+        if(isMatchCommentByUserId(userDto.getId(), commentId)){
+            throw new UnsuitableUserException("본인이 작성한 댓글만 삭제가 가능합니다.");
+        }
+        commentMapper.deleteComment(commentId);
     }
 }
