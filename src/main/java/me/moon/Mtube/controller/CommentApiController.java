@@ -2,11 +2,13 @@ package me.moon.Mtube.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.comment.CommentResponseDto;
+import me.moon.Mtube.dto.comment.CommentSaveRequestDto;
 import me.moon.Mtube.service.CommentService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import me.moon.Mtube.service.SessionLoginUser;
+import me.moon.Mtube.util.Message;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class CommentApiController {
 
     private final CommentService commentService;
+    private final SessionLoginUser sessionLoginUser;
 
     //댓글 리스트 조회
     @GetMapping
@@ -23,9 +26,11 @@ public class CommentApiController {
         return commentService.getComment(postId);
     }
     //댓글 등록
-
-    //댓글 수정
-
-    //댓글 삭제
-
+    @PostMapping
+    public ResponseEntity addComment(@PathVariable("postId") Long postId, @RequestBody CommentSaveRequestDto saveRequestDto){
+        String userEmail = sessionLoginUser.getCurrentUser();
+        commentService.addComment(userEmail ,postId, saveRequestDto);
+        return new ResponseEntity(new Message("comment add success!"), HttpStatus.CREATED);
+    }
+    
 }
