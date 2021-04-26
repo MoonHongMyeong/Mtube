@@ -18,4 +18,8 @@ public class CommentSaveRequestDto {
     public void setUserId(Long userId) {
         this.userId=userId;
     }
+
+    public void setParent(Long parent) {
+        this.parent=parent;
+    }
 }

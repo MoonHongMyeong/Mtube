@@ -27,4 +27,12 @@ public class CommentService {
         saveRequestDto.setPostId(postId);
         commentMapper.addComment(saveRequestDto);
     }
+
+    public void addReplies(String userEmail, Long parent, Long postId, CommentSaveRequestDto saveRequestDto) {
+        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+        saveRequestDto.setUserId(userDto.getId());
+        saveRequestDto.setPostId(postId);
+        saveRequestDto.setParent(parent);
+        commentMapper.addComment(saveRequestDto);
+    }
 }

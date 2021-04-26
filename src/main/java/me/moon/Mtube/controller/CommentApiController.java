@@ -32,5 +32,10 @@ public class CommentApiController {
         commentService.addComment(userEmail ,postId, saveRequestDto);
         return new ResponseEntity(new Message("comment add success!"), HttpStatus.CREATED);
     }
-    
+    @PostMapping("/{commentId}")
+    public ResponseEntity addReplies(@PathVariable("commentId") Long parent, @PathVariable("postId") Long postId, @RequestBody CommentSaveRequestDto saveRequestDto){
+        String userEmail = sessionLoginUser.getCurrentUser();
+        commentService.addReplies(userEmail, parent, postId, saveRequestDto);
+        return new ResponseEntity(new Message("comment add success!"), HttpStatus.CREATED);
+    }
 }
