@@ -4,19 +4,24 @@ import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.channel.ChannelResponseDto;
 import me.moon.Mtube.dto.channel.ChannelSaveRequestDto;
 import me.moon.Mtube.dto.channel.ChannelUpdateRequestDto;
+import me.moon.Mtube.dto.comment.ChannelCommentResponseDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
 import me.moon.Mtube.exception.UnsuitableUserException;
 import me.moon.Mtube.mapper.ChannelMapper;
+import me.moon.Mtube.mapper.CommentMapper;
 import me.moon.Mtube.mapper.UserMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class ChannelService {
 
     private final ChannelMapper channelMapper;
+    private final CommentMapper commentMapper;
     private final UserMapper userMapper;
 
     public ChannelResponseDto getChannel(Long channelId) {
@@ -79,5 +84,21 @@ public class ChannelService {
 
     public void deleteChannelPlaylist(Long playlistId) {
         channelMapper.deleteChannelPlaylist(playlistId);
+    }
+
+    /*
+    채널 댓글 관리 기능
+    */
+    
+    public void deleteCommentByVideoOwner(Long channelId, Long commentId, String userEmail) {
+        ChannelResponseDto channelDto = channelMapper.getChannel(channelId);
+        if(userMapper.findUserByEmail(userEmail).getId() != channelDto.getUser_id()){
+            throw new UnsuitableUserException("본인이 작성한 포스트의 댓글만 삭제 가능합니다.");
+        }
+        commentMapper.deleteComment(commentId);
+    }
+
+    public List<ChannelCommentResponseDto> videoOwnerGetCommentList(Long channelId) {
+        return commentMapper.videoOwnerGetCommentList(channelId);
     }
 }
