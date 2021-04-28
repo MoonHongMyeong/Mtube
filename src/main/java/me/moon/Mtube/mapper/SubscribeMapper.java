@@ -7,4 +7,6 @@ public interface SubscribeMapper {
     boolean toExistSubscribe(Long userId, Long channelId);
 
     void subscribe(Long userId, Long channelId);
+
+    void cancelSubscribe(Long userId, Long channelId);
 }

@@ -6,6 +6,7 @@ import me.moon.Mtube.service.SubscribeService;
 import me.moon.Mtube.util.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,5 +23,12 @@ public class SubscribeApiController {
         String userEmail = loginUser.getCurrentUser();
         subscribeService.subscribe(userEmail, channelId);
         return new ResponseEntity(new Message("subscribe success!"), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = {"/api/v1/video/subscribe", "/api/v1/channel/{channelId}/subscribe"})
+    public ResponseEntity cancelSubscribe(@RequestParam("channel_id") Long channelId){
+        String userEmail = loginUser.getCurrentUser();
+        subscribeService.cancelSubscribe(userEmail, channelId);
+        return new ResponseEntity(new Message("cancel subscription success!"), HttpStatus.OK);
     }
 }

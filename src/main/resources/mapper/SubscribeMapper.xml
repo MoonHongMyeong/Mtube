@@ -11,4 +11,9 @@
         INSERT INTO SUBSCRIBE(user_id, channel_id)
         VALUES(#{userId}, #{channelId})
     </insert>
+
+    <delete id="cancelSubscribe">
+        DELETE FROM SUBSCRIBE
+        WHERE user_id=#{userId} AND channel_id=#{channelId}
+    </delete>
 </mapper>
