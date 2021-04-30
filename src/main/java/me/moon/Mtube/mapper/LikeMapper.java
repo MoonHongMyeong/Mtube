@@ -22,4 +22,5 @@ public interface LikeMapper {
     void dislikePost(Long userId, Long postId);
 
     void updateDislikePost(Long userId, Long postId);
+
 }

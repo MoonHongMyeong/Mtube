@@ -32,4 +32,5 @@
         UPDATE LIKE_VIDEO SET kind="DISLIKE", modified_date=NOW()
         WHERE user_id=#{userId} AND video_post_id=#{postId}
     </update>
+
 </mapper>

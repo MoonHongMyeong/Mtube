@@ -62,4 +62,14 @@ public class LikeService {
             }
         }
     }
+
+    public void cancelDislikePost(String userEmail, Long postId) {
+        Optional<LikePostResponseDto> likePostDto = toExistLikePost(userEmail, postId);
+        if(likePostDto.isPresent()){
+            Long userId = likePostDto.get().getUser_id();
+            likeMapper.cancelLikePost(userId, postId);
+        }else{
+            throw new UnsuitableUserException("싫어요를 표시한 채널이 아닙니다 \n 잘못 된 요청입니다.");
+        }
+    }
 }
