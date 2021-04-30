@@ -33,5 +33,12 @@ public class LikeApiController {
         likeService.cancelLikePost(userEmail, postId);
         return new ResponseEntity(new Message("post like cancel success!"), HttpStatus.OK);
     }
+    //포스트 싫어요
+    @PostMapping("/dislike")
+    public ResponseEntity dislikePost(@PathVariable("postId") Long postId){
+        String userEmail = loginUser.getCurrentUser();
+        likeService.dislikePost(userEmail, postId);
+        return new ResponseEntity(new Message("post dislike success!"), HttpStatus.CREATED);
+    }
 
 }

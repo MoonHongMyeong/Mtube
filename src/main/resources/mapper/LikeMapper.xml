@@ -14,7 +14,7 @@
     </insert>
 
     <update id="updateLikePost">
-        UPDATE LIKE_VIDEO SET kind="LIKE"
+        UPDATE LIKE_VIDEO SET kind="LIKE", modified_date=NOW()
         WHERE user_id=#{userId} AND video_post_id=#{postId}
     </update>
 
@@ -22,4 +22,14 @@
         DELETE FROM LIKE_VIDEO
         WHERE user_id=#{userId} AND video_post_id=#{postId}
     </delete>
+
+    <insert id="dislikePost">
+        INSERT INTO LIKE_VIDEO(user_id, video_post_id, kind, created_date)
+        VALUES(#{userId}, #{postId}, "DISLIKE", NOW())
+    </insert>
+
+    <update id="updateDislikePost">
+        UPDATE LIKE_VIDEO SET kind="DISLIKE", modified_date=NOW()
+        WHERE user_id=#{userId} AND video_post_id=#{postId}
+    </update>
 </mapper>
