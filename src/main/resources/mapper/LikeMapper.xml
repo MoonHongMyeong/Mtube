@@ -17,4 +17,9 @@
         UPDATE LIKE_VIDEO SET kind="LIKE"
         WHERE user_id=#{userId} AND video_post_id=#{postId}
     </update>
+
+    <delete id="cancelLikePost">
+        DELETE FROM LIKE_VIDEO
+        WHERE user_id=#{userId} AND video_post_id=#{postId}
+    </delete>
 </mapper>

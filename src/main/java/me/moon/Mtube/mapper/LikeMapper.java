@@ -17,5 +17,5 @@ public interface LikeMapper {
 
     void updateLikePost(Long userId, Long postId);
 
-
+    void cancelLikePost(Long userId, Long postId);
 }
