@@ -1,6 +1,7 @@
 package me.moon.Mtube.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.like.LikeCountResponseDto;
 import me.moon.Mtube.service.LikeService;
 import me.moon.Mtube.service.SessionLoginUser;
 import me.moon.Mtube.util.Message;
@@ -19,6 +20,11 @@ public class LikeApiController {
     /*
         포스트
     */
+    //포스트 좋아요, 싫어요 수 조회
+    @GetMapping("/like")
+    public LikeCountResponseDto getCount(@PathVariable("postId") Long postId){
+        return likeService.getCount(postId);
+    }
     //포스트 좋아요
     @PostMapping("/like")
     public ResponseEntity likePost(@PathVariable("postId") Long postId){

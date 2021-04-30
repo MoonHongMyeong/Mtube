@@ -1,6 +1,7 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.like.LikeCountResponseDto;
 import me.moon.Mtube.dto.like.LikePostResponseDto;
 import me.moon.Mtube.exception.UnsuitableUserException;
 import me.moon.Mtube.mapper.LikeMapper;
@@ -71,5 +72,9 @@ public class LikeService {
         }else{
             throw new UnsuitableUserException("싫어요를 표시한 채널이 아닙니다 \n 잘못 된 요청입니다.");
         }
+    }
+
+    public LikeCountResponseDto getCount(Long postId) {
+        return likeMapper.getCount(postId);
     }
 }

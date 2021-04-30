@@ -1,5 +1,6 @@
 package me.moon.Mtube.mapper;
 
+import me.moon.Mtube.dto.like.LikeCountResponseDto;
 import me.moon.Mtube.dto.like.LikePostResponseDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -23,4 +24,5 @@ public interface LikeMapper {
 
     void updateDislikePost(Long userId, Long postId);
 
+    LikeCountResponseDto getCount(Long postId);
 }

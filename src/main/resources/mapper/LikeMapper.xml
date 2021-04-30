@@ -33,4 +33,11 @@
         WHERE user_id=#{userId} AND video_post_id=#{postId}
     </update>
 
+    <select id="getCount" resultType="me.moon.Mtube.dto.like.LikeCountResponseDto">
+        SELECT
+        COUNT(CASE WHEN kind="LIKE" THEN 1 END) AS likeCount,
+        COUNT(CASE WHEN kind="DISLIKE" THEN 1 END) AS dislikeCount
+        FROM LIKE_VIDEO WHERE video_post_id=#{postId}
+    </select>
+
 </mapper>
