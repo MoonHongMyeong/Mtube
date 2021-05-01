@@ -14,7 +14,7 @@
     </insert>
 
     <update id="updateLikePost">
-        UPDATE LIKE_VIDEO SET kind="LIKE", modified_date=NOW()
+        UPDATE LIKE_VIDEO SET kind="LIKE", created_date=NOW()
         WHERE user_id=#{userId} AND video_post_id=#{postId}
     </update>
 
@@ -29,7 +29,7 @@
     </insert>
 
     <update id="updateDislikePost">
-        UPDATE LIKE_VIDEO SET kind="DISLIKE", modified_date=NOW()
+        UPDATE LIKE_VIDEO SET kind="DISLIKE", created_date=NOW()
         WHERE user_id=#{userId} AND video_post_id=#{postId}
     </update>
 
