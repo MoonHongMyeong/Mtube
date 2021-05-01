@@ -40,4 +40,19 @@
         FROM LIKE_VIDEO WHERE video_post_id=#{postId}
     </select>
 
+    <select id="toExistLikeComment" resultType="me.moon.Mtube.dto.like.LikeCommentResponseDto">
+        SELECT * FROM LIKE_COMMENT
+        WHERE user_id=#{userId} AND comment_id=#{commentId}
+    </select>
+
+    <insert id="likeComment">
+        INSERT INTO LIKE_COMMENT(user_id, comment_id, kind, created_date)
+        VALUES(#{userId}, #{commentId}, "LIKE", NOW())
+    </insert>
+
+    <update id="updateLikeComment">
+        UPDATE LIKE_COMMENT SET kind="LIKE", created_date=NOW()
+        WHERE user_id=#{userId} AND comment_id=#{commentId}
+    </update>
+
 </mapper>

@@ -1,5 +1,6 @@
 package me.moon.Mtube.mapper;
 
+import me.moon.Mtube.dto.like.LikeCommentResponseDto;
 import me.moon.Mtube.dto.like.LikeCountResponseDto;
 import me.moon.Mtube.dto.like.LikePostResponseDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,11 @@ public interface LikeMapper {
     void updateDislikePost(Long userId, Long postId);
 
     LikeCountResponseDto getCount(Long postId);
+
+    Optional<LikeCommentResponseDto> toExistLikeComment(Long userId, Long commentId);
+
+    void likeComment(Long userId, Long commentId);
+
+    void updateLikeComment(Long userId, Long commentId);
+
 }

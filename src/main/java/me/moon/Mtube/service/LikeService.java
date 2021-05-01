@@ -1,6 +1,7 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.like.LikeCommentResponseDto;
 import me.moon.Mtube.dto.like.LikeCountResponseDto;
 import me.moon.Mtube.dto.like.LikePostResponseDto;
 import me.moon.Mtube.exception.UnsuitableUserException;
@@ -76,5 +77,28 @@ public class LikeService {
 
     public LikeCountResponseDto getCount(Long postId) {
         return likeMapper.getCount(postId);
+    }
+
+    /*
+        댓글
+     */
+
+    public void likeComment(String userEmail, Long commentId) {
+        Optional<LikeCommentResponseDto> likeCommentDto = toExistLikeComment(userEmail, commentId);
+        if(likeCommentDto.isPresent()){
+            if(likeCommentDto.get().getKind() == "DISLIKE"){
+                likeMapper.updateLikeComment(likeCommentDto.get().getUser_id(), commentId);
+            }else{
+                throw new IllegalArgumentException("이미 좋아요를 했습니다.");
+            }
+        }else{
+            Long userId = userMapper.findUserByEmail(userEmail).getId();
+            likeMapper.likeComment(userId, commentId);
+        }
+    }
+
+    private Optional<LikeCommentResponseDto> toExistLikeComment(String userEmail, Long commentId) {
+        Long userId = userMapper.findUserByEmail(userEmail).getId();
+        return likeMapper.toExistLikeComment(userId, commentId);
     }
 }
