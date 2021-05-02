@@ -18,4 +18,12 @@ public interface CommentMapper {
     void deleteComment(Long commentId);
 
     List<ChannelCommentResponseDto> videoOwnerGetCommentList(Long channelId);
+
+    void plusLikeCount(Long commentId);
+
+    void plusDislikeCount(Long commentId);
+
+    void minusLikeCount(Long commentId);
+
+    void minusDislikeCount(Long commentId);
 }

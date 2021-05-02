@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.moon.Mtube.mapper.LikeMapper">
+
+    <select id="toExistLikePost" resultType="me.moon.Mtube.dto.like.LikePostResponseDto">
+        SELECT * FROM LIKE_VIDEO
+        WHERE user_id=#{userId} AND video_post_id=#{postId}
+    </select>
+
+    <insert id="likePost">
+        INSERT INTO LIKE_VIDEO(user_id, video_post_id, kind, created_date)
+        VALUES(#{userId}, #{postId}, "LIKE", NOW())
+    </insert>
+
+    <update id="updateLikePost">
+        UPDATE LIKE_VIDEO SET kind="LIKE", created_date=NOW()
+        WHERE user_id=#{userId} AND video_post_id=#{postId}
+    </update>
+
+    <delete id="cancelLikePost">
+        DELETE FROM LIKE_VIDEO
+        WHERE user_id=#{userId} AND video_post_id=#{postId}
+    </delete>
+
+    <insert id="dislikePost">
+        INSERT INTO LIKE_VIDEO(user_id, video_post_id, kind, created_date)
+        VALUES(#{userId}, #{postId}, "DISLIKE", NOW())
+    </insert>
+
+    <update id="updateDislikePost">
+        UPDATE LIKE_VIDEO SET kind="DISLIKE", created_date=NOW()
+        WHERE user_id=#{userId} AND video_post_id=#{postId}
+    </update>
+
+    <select id="getCount" resultType="me.moon.Mtube.dto.like.LikeCountResponseDto">
+        SELECT
+        COUNT(CASE WHEN kind="LIKE" THEN 1 END) AS likeCount,
+        COUNT(CASE WHEN kind="DISLIKE" THEN 1 END) AS dislikeCount
+        FROM LIKE_VIDEO WHERE video_post_id=#{postId}
+    </select>
+
+    <select id="toExistLikeComment" resultType="me.moon.Mtube.dto.like.LikeCommentResponseDto">
+        SELECT * FROM LIKE_COMMENT
+        WHERE user_id=#{userId} AND comment_id=#{commentId}
+    </select>
+
+    <insert id="likeComment">
+        INSERT INTO LIKE_COMMENT(user_id, comment_id, kind, created_date)
+        VALUES(#{userId}, #{commentId}, "LIKE", NOW())
+    </insert>
+
+    <update id="updateLikeComment">
+        UPDATE LIKE_COMMENT SET kind="LIKE", created_date=NOW()
+        WHERE user_id=#{userId} AND comment_id=#{commentId}
+    </update>
+
+    <insert id="dislikeComment">
+        INSERT INTO LIKE_COMMENT(user_id, comment_id, kind, created_date)
+        VALUES(#{userId}, #{commentId}, "DISLIKE", NOW())
+    </insert>
+
+    <update id="updateDislikeComment">
+        UPDATE LIKE_COMMENT SET kind="DISLIKE", created_date=NOW()
+        WHERE user_id=#{userId} AND comment_id=#{commentId}
+    </update>
+
+    <delete id="cancelLikeComment">
+        DELETE FROM LIKE_COMMENT WHERE user_id=#{userId} AND comment_id=#{commentId}
+    </delete>
+
+    <delete id="cancelDislikeComment">
+        DELETE FROM LIKE_COMMENT WHERE user_id=#{userId} AND comment_id=#{commentId}
+    </delete>
+
+</mapper>
