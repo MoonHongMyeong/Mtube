@@ -127,4 +127,20 @@ public class LikeService {
     private void plusDislikeCount(Long commentId) {
         commentMapper.plusDislikeCount(commentId);
     }
+
+    public void cancelLikeComment(String userEmail, Long commentId) {
+        Optional<LikeCommentResponseDto> likeCommentDto = toExistLikeComment(userEmail, commentId);
+        if(!likeCommentDto.isPresent()){
+            throw new IllegalArgumentException("좋아요를 하지 않았습니다.");
+        }else{
+            Long userId=userMapper.findUserByEmail(userEmail).getId();
+            minusLikeCount(commentId);
+            likeMapper.cancelLikeComment(userId, commentId);
+        }
+
+    }
+
+    private void minusLikeCount(Long commentId) {
+        commentMapper.minusLikeCount(commentId);
+    }
 }

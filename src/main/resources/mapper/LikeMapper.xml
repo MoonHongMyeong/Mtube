@@ -65,4 +65,8 @@
         WHERE user_id=#{userId} AND comment_id=#{commentId}
     </update>
 
+    <delete id="cancelLikeComment">
+        DELETE FROM LIKE_COMMENT WHERE user_id=#{userId} AND comment_id=#{commentId}
+    </delete>
+
 </mapper>
