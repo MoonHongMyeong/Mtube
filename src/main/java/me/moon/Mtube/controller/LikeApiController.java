@@ -62,4 +62,11 @@ public class LikeApiController {
         likeService.likeComment(userEmail,commentId);
         return new ResponseEntity(new Message("comment like success!"), HttpStatus.CREATED);
     }
+
+    @PostMapping("/comment/{commentId}/dislike")
+    public ResponseEntity dislikeComment(@PathVariable("commentId") Long commentId){
+        String userEmail = loginUser.getCurrentUser();
+        likeService.dislikeComment(userEmail, commentId);
+        return new ResponseEntity(new Message("comment dislike success!"), HttpStatus.CREATED);
+    }
 }

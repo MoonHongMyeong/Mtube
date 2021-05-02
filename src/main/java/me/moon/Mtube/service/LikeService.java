@@ -108,4 +108,23 @@ public class LikeService {
         Long userId = userMapper.findUserByEmail(userEmail).getId();
         return likeMapper.toExistLikeComment(userId, commentId);
     }
+
+    public void dislikeComment(String userEmail, Long commentId) {
+        Optional<LikeCommentResponseDto> likeCommentDto = toExistLikeComment(userEmail, commentId);
+        if(likeCommentDto.isPresent()){
+            if(likeCommentDto.get().getKind() == "Like"){
+                likeMapper.updateDislikeComment(likeCommentDto.get().getUser_id(), commentId);
+            }else{
+                throw new IllegalArgumentException("이미 싫어요를 했습니다.");
+            }
+        }else{
+            Long userId = userMapper.findUserByEmail(userEmail).getId();
+            plusDislikeCount(commentId);
+            likeMapper.dislikeComment(userId, commentId);
+        }
+    }
+
+    private void plusDislikeCount(Long commentId) {
+        commentMapper.plusDislikeCount(commentId);
+    }
 }

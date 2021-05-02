@@ -33,4 +33,7 @@ public interface LikeMapper {
 
     void updateLikeComment(Long userId, Long commentId);
 
+    void dislikeComment(Long userId, Long commentId);
+
+    void updateDislikeComment(Long userId, Long commentId);
 }

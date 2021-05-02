@@ -20,4 +20,6 @@ public interface CommentMapper {
     List<ChannelCommentResponseDto> videoOwnerGetCommentList(Long channelId);
 
     void plusLikeCount(Long commentId);
+
+    void plusDislikeCount(Long commentId);
 }
