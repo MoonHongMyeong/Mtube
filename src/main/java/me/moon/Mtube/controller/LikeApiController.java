@@ -56,7 +56,7 @@ public class LikeApiController {
     /*
         댓글
     */
-    @PostMapping("/comment/{commentId}")
+    @PostMapping("/comment/{commentId}/like")
     public ResponseEntity likeComment(@PathVariable("commentId") Long commentId){
         String userEmail = loginUser.getCurrentUser();
         likeService.likeComment(userEmail,commentId);
