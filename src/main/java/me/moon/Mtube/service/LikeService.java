@@ -5,6 +5,7 @@ import me.moon.Mtube.dto.like.LikeCommentResponseDto;
 import me.moon.Mtube.dto.like.LikeCountResponseDto;
 import me.moon.Mtube.dto.like.LikePostResponseDto;
 import me.moon.Mtube.exception.UnsuitableUserException;
+import me.moon.Mtube.mapper.CommentMapper;
 import me.moon.Mtube.mapper.LikeMapper;
 import me.moon.Mtube.mapper.UserMapper;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class LikeService {
 
     private final LikeMapper likeMapper;
+    private final CommentMapper commentMapper;
     private final UserMapper userMapper;
 
     /*
@@ -93,8 +95,13 @@ public class LikeService {
             }
         }else{
             Long userId = userMapper.findUserByEmail(userEmail).getId();
+            plusLikeCount(commentId);
             likeMapper.likeComment(userId, commentId);
         }
+    }
+
+    private void plusLikeCount(Long commentId) {
+        commentMapper.plusLikeCount(commentId);
     }
 
     private Optional<LikeCommentResponseDto> toExistLikeComment(String userEmail, Long commentId) {
