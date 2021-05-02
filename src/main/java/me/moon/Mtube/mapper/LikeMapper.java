@@ -38,4 +38,6 @@ public interface LikeMapper {
     void updateDislikeComment(Long userId, Long commentId);
 
     void cancelLikeComment(Long userId, Long commentId);
+
+    void cancelDislikeComment(Long userId, Long commentId);
 }

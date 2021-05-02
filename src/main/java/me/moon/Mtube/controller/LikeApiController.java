@@ -74,6 +74,13 @@ public class LikeApiController {
     public ResponseEntity cancelLikeComment(@PathVariable("commentId") Long commentId){
         String userEmail= loginUser.getCurrentUser();
         likeService.cancelLikeComment(userEmail, commentId);
+        return new ResponseEntity(new Message("comment like cancel success!"), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/comment/{commentId}/dislike")
+    public ResponseEntity cancelDislikeComment(@PathVariable("commentId") Long commentId){
+        String userEmail= loginUser.getCurrentUser();
+        likeService.cancelDislikeComment(userEmail, commentId);
         return new ResponseEntity(new Message("comment dislike cancel success!"), HttpStatus.OK);
     }
 }

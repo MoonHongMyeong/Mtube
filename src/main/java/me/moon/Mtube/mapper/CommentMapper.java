@@ -24,4 +24,6 @@ public interface CommentMapper {
     void plusDislikeCount(Long commentId);
 
     void minusLikeCount(Long commentId);
+
+    void minusDislikeCount(Long commentId);
 }

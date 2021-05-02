@@ -137,10 +137,24 @@ public class LikeService {
             minusLikeCount(commentId);
             likeMapper.cancelLikeComment(userId, commentId);
         }
-
     }
 
     private void minusLikeCount(Long commentId) {
         commentMapper.minusLikeCount(commentId);
+    }
+
+    public void cancelDislikeComment(String userEmail, Long commentId) {
+        Optional<LikeCommentResponseDto> likeCommentDto = toExistLikeComment(userEmail, commentId);
+        if(!likeCommentDto.isPresent()){
+            throw new IllegalArgumentException("싫어요를 하지 않았습니다.");
+        }else{
+            Long userId=userMapper.findUserByEmail(userEmail).getId();
+            minusDislikeCount(commentId);
+            likeMapper.cancelDislikeComment(userId, commentId);
+        }
+    }
+
+    private void minusDislikeCount(Long commentId) {
+        commentMapper.minusDislikeCount(commentId);
     }
 }

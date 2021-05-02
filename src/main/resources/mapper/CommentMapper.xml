@@ -44,4 +44,9 @@
         UPDATE COMMENT SET like_count=like_count-1
         WHERE id=#{commentId}
     </update>
+
+    <update id="minusDislikeCount">
+        UPDATE COMMENT SET dislike_count=dislike_count-1
+        WHERE id=#{commentId}
+    </update>
 </mapper>
