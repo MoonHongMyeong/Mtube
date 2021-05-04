@@ -11,5 +11,7 @@ public interface AlarmMapper {
 
     void addAlarm(Long userId, Long channelId);
 
+    void removeAlarm(Long userId, Long channelId);
+
     List<UserResponseDto> getAlarmUser(Long channelId);
 }

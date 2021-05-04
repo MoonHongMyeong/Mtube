@@ -12,6 +12,10 @@
         VALUES(#{channelId}, #{userId}, NOW(), NOW())
     </insert>
 
+    <delete id="removeAlarm">
+        DELETE FROM ALARM WHERE user_id=#{userId} AND channel_id=#{channelId}
+    </delete>
+
     <select id="getAlarmUser" resultType="me.moon.Mtube.dto.user.UserResponseDto">
         SELECT u.email
         FROM USER AS u

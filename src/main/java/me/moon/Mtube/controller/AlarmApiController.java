@@ -22,4 +22,11 @@ public class AlarmApiController {
         alarmService.addAlarm(userEmail, channelId);
         return new ResponseEntity(new Message("channel alarm add success"), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/alarm")
+    public ResponseEntity removeAlarm(@RequestParam("channel_id") Long channelId){
+        String userEmail = loginUser.getCurrentUser();
+        alarmService.removeAlarm(userEmail, channelId);
+        return new ResponseEntity(new Message("channel alarm remove success"), HttpStatus.OK);
+    }
 }

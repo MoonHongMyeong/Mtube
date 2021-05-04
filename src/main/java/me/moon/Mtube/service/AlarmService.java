@@ -26,5 +26,11 @@ public class AlarmService {
         return alarmMapper.toExistAlarm(userId, channelId);
     }
 
-
+    public void removeAlarm(String userEmail, Long channelId) {
+        Long userId = userMapper.findUserByEmail(userEmail).getId();
+        if(!toExistAlarm(userId, channelId)){
+            throw new DuplicatedAlarmException("실시간 알람 등록을 하지 않았습니다.");
+        }
+        alarmMapper.removeAlarm(userId, channelId);
+    }
 }
