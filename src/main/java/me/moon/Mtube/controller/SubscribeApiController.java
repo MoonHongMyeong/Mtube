@@ -18,14 +18,14 @@ public class SubscribeApiController {
     private final SubscribeService subscribeService;
     private final SessionLoginUser loginUser;
 
-    @PostMapping(value = {"/api/v1/video/subscribe", "/api/v1/channel/{channelId}/subscribe"})
+    @PostMapping("/api/v1/channel/{channelId}/subscribe")
     public ResponseEntity subscribe(@RequestParam("channel_id") Long channelId){
         String userEmail = loginUser.getCurrentUser();
         subscribeService.subscribe(userEmail, channelId);
         return new ResponseEntity(new Message("subscribe success!"), HttpStatus.CREATED);
     }
 
-    @DeleteMapping(value = {"/api/v1/video/subscribe", "/api/v1/channel/{channelId}/subscribe"})
+    @DeleteMapping("/api/v1/channel/{channelId}/subscribe")
     public ResponseEntity cancelSubscribe(@RequestParam("channel_id") Long channelId){
         String userEmail = loginUser.getCurrentUser();
         subscribeService.cancelSubscribe(userEmail, channelId);
