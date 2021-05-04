@@ -1,14 +1,19 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.channel.ChannelResponseDto;
+import me.moon.Mtube.dto.mail.MailDto;
 import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.post.PostSaveRequestDto;
 import me.moon.Mtube.dto.post.PostUpdateRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
+import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.exception.UnsuitableUserException;
+import me.moon.Mtube.mapper.AlarmMapper;
 import me.moon.Mtube.mapper.ChannelMapper;
 import me.moon.Mtube.mapper.PostMapper;
 import me.moon.Mtube.mapper.UserMapper;
+import me.moon.Mtube.util.MailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +25,7 @@ public class PostService {
     private final UserMapper userMapper;
     private final ChannelMapper channelMapper;
     private final PostMapper postMapper;
+    private final AlarmMapper alarmMapper;
 
     public List<PostResponseDto> getPostList() {
         return postMapper.getPostList();
@@ -41,6 +47,18 @@ public class PostService {
             throw new UnsuitableUserException("본인의 채널이 아닙니다. \n 본인의 채널에서만 포스트를 등록할 수 있습니다.");
         }
         postMapper.addPost(saveRequestDto);
+        //비디오 등록 후 실시간 알림
+        List<UserResponseDto> alarmUserList = alarmMapper.getAlarmUser(channelId);
+        ChannelResponseDto channelDto = channelMapper.getChannel(channelId);
+        alarmUserList
+                .stream()
+                .forEach((user)->
+                        new MailSender().sendMail(MailDto
+                                .builder()
+                                .address(user.getEmail())
+                                .title(saveRequestDto.getTitle())
+                                .message(channelDto.getName()+"님이 새로운 비디오를 업로드 했습니다.")
+                                .build()));
     }
 
     private boolean isMatchChannelByUserId(Long userId, Long channelId) {

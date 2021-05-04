@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.moon.Mtube.mapper.AlarmMapper">
+    <select id="toExistAlarm" resultType="boolean">
+        SELECT EXISTS
+        (SELECT * FROM ALARM WHERE user_id=#{userId} AND channel_id=#{channelId}
+    </select>
+
+    <insert id="addAlarm">
+        INSERT INTO ALARM(channel_id, user_id, created_date, modified_date)
+        VALUES(#{channelId}, #{userId}, NOW(), NOW())
+    </insert>
+
+    <delete id="removeAlarm">
+        DELETE FROM ALARM WHERE user_id=#{userId} AND channel_id=#{channelId}
+    </delete>
+
+    <select id="getAlarmUser" resultType="me.moon.Mtube.dto.user.UserResponseDto">
+        SELECT u.email
+        FROM USER AS u
+        JOIN ALARM AS a
+        ON a.user_id = u.id
+    </select>
+</mapper>
