@@ -81,4 +81,8 @@ public class UserService {
         }
         return user;
     }
+
+    public void addUserPlaylist(Long userId, String name) {
+        userMapper.addUserPlaylist(userId, name);
+    }
 }

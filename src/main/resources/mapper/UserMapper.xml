@@ -46,4 +46,11 @@
         SELECT * FROM USER
         WHERE email = #{email}
     </select>
+
+    <!-- playlist -->
+
+    <insert id="addUserPlaylist">
+        INSERT INTO USER_PLAYLIST_NAME(name, user_id, created_date, modified_date)
+        VALUES(#{name}, #{userId}, NOW(), NOW())
+    </insert>
 </mapper>

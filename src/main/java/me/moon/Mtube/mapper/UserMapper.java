@@ -25,4 +25,6 @@ public interface UserMapper {
     void deleteUser(Long userId);
 
      LoginUserDto findUserByEmail(String email);
+
+    void addUserPlaylist(Long userId, String name);
 }

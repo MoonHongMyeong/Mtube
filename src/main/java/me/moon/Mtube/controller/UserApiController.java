@@ -68,4 +68,16 @@ public class UserApiController {
         return new ResponseEntity(new Message("logout success!"), HttpStatus.OK);
     }
 
+
+    /*
+        재생목록 기능
+     */
+    
+    //리스트 등록
+    @PostMapping("/{userId}/playlist")
+    public ResponseEntity addUserPlaylist(@PathVariable("userId")Long userId, @RequestParam("name") String name){
+        userService.addUserPlaylist(userId, name);
+        return new ResponseEntity(new Message("add playlist success!"), HttpStatus.CREATED);
+    }
+
 }
