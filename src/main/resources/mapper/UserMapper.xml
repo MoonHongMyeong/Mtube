@@ -59,5 +59,7 @@
         WHERE id=#{playlistId}
     </update>
 
-    
+    <delete id="deleteUserPlaylist">
+        DELETE FROM USER_PLAYLIST_NAME WHERE id=#{playlistId}
+    </delete>
 </mapper>

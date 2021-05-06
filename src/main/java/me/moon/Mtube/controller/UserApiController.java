@@ -88,6 +88,12 @@ public class UserApiController {
         userService.updateUserPlaylistName(userEmail ,userId, playlistId, name);
         return new ResponseEntity(new Message("update playlist name success!"), HttpStatus.OK);
     }
-
+    //리스트 삭제
+    @DeleteMapping("/{userId}/playlist/{playlistId}")
+    public ResponseEntity deleteUserPlaylist(@PathVariable("userId") Long userId, @PathVariable("playlistId") Long playlistId){
+        String userEmail = loginService.getCurrentUser();
+        userService.deleteUserPlaylist(userEmail, userId, playlistId);
+        return new ResponseEntity(new Message("delete playlist success!"), HttpStatus.OK);
+    }
 
 }

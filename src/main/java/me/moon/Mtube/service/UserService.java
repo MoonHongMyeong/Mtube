@@ -95,5 +95,11 @@ public class UserService {
         userMapper.updateUserPlaylistName(playlistId, name);
     }
 
-
+    public void deleteUserPlaylist(String userEmail, Long userId, Long playlistId) {
+        Long loginUserId = userMapper.findUserByEmail(userEmail).getId();
+        if(loginUserId != userId){
+            throw new UnsuitableUserException("자신의 플레이리스트만 삭제 가능합니다.");
+        }
+        userMapper.deleteUserPlaylist(playlistId);
+    }
 }

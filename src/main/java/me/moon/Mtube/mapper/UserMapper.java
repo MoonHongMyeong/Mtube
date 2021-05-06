@@ -30,4 +30,5 @@ public interface UserMapper {
 
     void updateUserPlaylistName(Long playlistId, String name);
 
+    void deleteUserPlaylist(Long playlistId);
 }
