@@ -53,4 +53,11 @@
         INSERT INTO USER_PLAYLIST_NAME(name, user_id, created_date, modified_date)
         VALUES(#{name}, #{userId}, NOW(), NOW())
     </insert>
+
+    <update id="updateUserPlaylistName">
+        UPDATE USER_PLAYLIST_NAME SET name=#{name}, modified_date=NOW()
+        WHERE id=#{playlistId}
+    </update>
+
+    
 </mapper>

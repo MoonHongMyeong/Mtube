@@ -79,5 +79,15 @@ public class UserApiController {
         userService.addUserPlaylist(userId, name);
         return new ResponseEntity(new Message("add playlist success!"), HttpStatus.CREATED);
     }
+    //리스트 이름 수정
+    @PutMapping("/{userId}/playlist/{playlistId}")
+    public ResponseEntity updateUserPlaylistName(@PathVariable("userId")Long userId,
+                                                 @PathVariable("playlistId") Long playlistId,
+                                                 @RequestParam("name") String name){
+        String userEmail = loginService.getCurrentUser();
+        userService.updateUserPlaylistName(userEmail ,userId, playlistId, name);
+        return new ResponseEntity(new Message("update playlist name success!"), HttpStatus.OK);
+    }
+
 
 }

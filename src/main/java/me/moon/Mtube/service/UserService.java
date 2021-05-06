@@ -3,6 +3,7 @@ package me.moon.Mtube.service;
 import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.user.*;
 import me.moon.Mtube.exception.DuplicatedEmailException;
+import me.moon.Mtube.exception.UnsuitableUserException;
 import me.moon.Mtube.mapper.UserMapper;
 import me.moon.Mtube.util.PasswordEncryptor;
 import org.springframework.stereotype.Service;
@@ -85,4 +86,14 @@ public class UserService {
     public void addUserPlaylist(Long userId, String name) {
         userMapper.addUserPlaylist(userId, name);
     }
+
+    public void updateUserPlaylistName(String userEmail, Long userId, Long playlistId, String name) {
+        Long loginUserId = userMapper.findUserByEmail(userEmail).getId();
+        if(loginUserId != userId){
+            throw new UnsuitableUserException("자신의 플레이리스트만 수정할 수 있습니다.");
+        }
+        userMapper.updateUserPlaylistName(playlistId, name);
+    }
+
+
 }
