@@ -25,6 +25,8 @@ public class UserService {
         String encryptedPassword = encryptUser(saveRequestDto.getPassword());
         saveRequestDto.changeEncryptedPassword(encryptedPassword);
         userMapper.insertUser(saveRequestDto);
+        Long signUpUserId = userMapper.findUserByEmail(saveRequestDto.getEmail()).getId();
+        userMapper.addUserPlaylist(signUpUserId,"나중에 볼 동영상");
     }
 
     private String encryptUser(String password) {
