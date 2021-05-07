@@ -62,4 +62,11 @@
     <delete id="deleteUserPlaylist">
         DELETE FROM USER_PLAYLIST_NAME WHERE id=#{playlistId}
     </delete>
+
+    <!-- playlist in video -->
+
+    <insert id="addPostInUserPlaylist">
+        INSERT INTO USER_PLAYLIST(video_post_id, user_playlist_name_id, created_date, modified_date)
+        VALUES(#{postId}, #{playlistId}, NOW(), NOW())
+    </insert>
 </mapper>

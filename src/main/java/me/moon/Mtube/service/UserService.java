@@ -102,4 +102,12 @@ public class UserService {
         }
         userMapper.deleteUserPlaylist(playlistId);
     }
+    @Transactional
+    public void addPostInUserPlaylist(String userEmail, Long userId, Long playlistId, Long postId) {
+        Long loginUserId = userMapper.findUserByEmail(userEmail).getId();
+        if(loginUserId != userId){
+            throw new UnsuitableUserException("자신의 플레이리스트에만 비디오를 등록할 수 있습니다.");
+        }
+        userMapper.addPostInUserPlaylist(postId, playlistId);
+    }
 }
