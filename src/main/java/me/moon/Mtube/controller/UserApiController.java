@@ -105,5 +105,13 @@ public class UserApiController {
         userService.addPostInUserPlaylist(userEmail, userId, playlistId, postId);
         return new ResponseEntity(new Message("add video in your playlist success!"), HttpStatus.CREATED);
     }
-
+    //리스트에 포스트 삭제
+    @DeleteMapping("/{userId}/playlist/{playlistId}/{postId}")
+    public ResponseEntity deletePostInUserPlaylist(@PathVariable("userId") Long userId,
+                                                @PathVariable("playlistId") Long playlistId,
+                                                @PathVariable("postId") Long postId){
+        String userEmail = loginService.getCurrentUser();
+        userService.deletePostInUserPlaylist(userEmail, userId, playlistId, postId);
+        return new ResponseEntity(new Message("delete video in your playlist success!"), HttpStatus.OK);
+    }
 }

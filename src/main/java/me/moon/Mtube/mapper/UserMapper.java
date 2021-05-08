@@ -33,4 +33,6 @@ public interface UserMapper {
     void deleteUserPlaylist(Long playlistId);
 
     void addPostInUserPlaylist(Long postId, Long playlistId);
+
+    void deletePostInUserPlaylist(Long postId, Long playlistId);
 }
