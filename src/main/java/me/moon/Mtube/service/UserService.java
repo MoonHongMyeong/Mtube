@@ -1,6 +1,7 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.user.*;
 import me.moon.Mtube.exception.DuplicatedEmailException;
 import me.moon.Mtube.exception.UnsuitableUserException;
@@ -9,6 +10,7 @@ import me.moon.Mtube.util.PasswordEncryptor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -119,5 +121,15 @@ public class UserService {
             throw new UnsuitableUserException("자신의 플레이리스트의 비디오만 삭제 가능합니다.");
         }
         userMapper.deletePostInUserPlaylist(postId, playlistId);
+    }
+
+    public void copyUserPlaylist(String userEmail, Long userId, Long playlistId) {
+        Long loginUserId = userMapper.findUserByEmail(userEmail).getId();
+        String playlistName = userMapper.getPlaylistName(playlistId);
+        userMapper.addUserPlaylist(loginUserId, playlistName+"의 복사본");
+        List<Long> newPlaylistId = userMapper.getPlaylist(userId);
+        List<PostResponseDto> playlist = userMapper.getPlaylistInPostId(userId, playlistId);
+        playlist.stream()
+                .forEach((post)-> userMapper.addPostInUserPlaylist(post.getId(),newPlaylistId.get(newPlaylistId.size())-1));
     }
 }

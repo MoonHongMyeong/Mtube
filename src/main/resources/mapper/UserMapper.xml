@@ -73,4 +73,20 @@
     <delete id="deletePostInUserPlaylist">
         DELETE FROM USER_PLAYLIST WHERE video_post_id=#{postId} AND user_playlist_name_id=#{playlistId}
     </delete>
+
+    <!-- copy playlist -->
+    <select id="getPlaylistName" resultType="string">
+        SELECT name FROM USER_PLAYLIST_NAME
+        WHERE id=#{playlistId}
+    </select>
+
+    <select id="getPlaylist">
+        SELECT id FROM USER_PLAYLIST_NAME
+        WHERE user_id=#{userId}
+    </select>
+
+    <select id="getPlaylistInPostId">
+        SELECT video_post_id FROM USER_PLAYLIST
+        WHERE user_id=#{userId} AND user_playlist_name_id=#{playlistId}
+    </select>
 </mapper>

@@ -95,7 +95,13 @@ public class UserApiController {
         userService.deleteUserPlaylist(userEmail, userId, playlistId);
         return new ResponseEntity(new Message("delete playlist success!"), HttpStatus.OK);
     }
-
+    //유저의 플레이리스트 복사
+    @PostMapping("/{userId}/playlist/{playlistId}/copy")
+    public ResponseEntity copyUserPlaylist(@PathVariable("userId") Long userId, @PathVariable("playlistId")Long playlistId){
+        String userEmail = loginService.getCurrentUser();
+        userService.copyUserPlaylist(userEmail, userId, playlistId);
+        return new ResponseEntity(new Message("coply playlist success!"), HttpStatus.CREATED);
+    }
     //리스트에 포스트 추가
     @PostMapping("/{userId}/playlist/{playlistId}/{postId}")
     public ResponseEntity addPostInUserPlaylist(@PathVariable("userId") Long userId,

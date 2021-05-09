@@ -1,9 +1,12 @@
 package me.moon.Mtube.mapper;
 
+import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
 import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.dto.user.UserSaveRequestDto;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -35,4 +38,10 @@ public interface UserMapper {
     void addPostInUserPlaylist(Long postId, Long playlistId);
 
     void deletePostInUserPlaylist(Long postId, Long playlistId);
+
+    String getPlaylistName(Long playlistId);
+
+    List<Long> getPlaylist(Long userId);
+
+    List<PostResponseDto> getPlaylistInPostId(Long userId, Long playlistId);
 }
