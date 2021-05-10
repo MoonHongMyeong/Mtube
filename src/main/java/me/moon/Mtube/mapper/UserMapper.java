@@ -1,5 +1,6 @@
 package me.moon.Mtube.mapper;
 
+import me.moon.Mtube.dto.playlist.UserPlaylistResponseDto;
 import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
 import me.moon.Mtube.dto.user.UserResponseDto;
@@ -41,7 +42,9 @@ public interface UserMapper {
 
     String getPlaylistName(Long playlistId);
 
-    List<Long> getPlaylist(Long userId);
+    List<Long> getUserPlaylist(Long userId);
 
     List<PostResponseDto> getPlaylistInPostId(Long userId, Long playlistId);
+
+    List<UserPlaylistResponseDto> getPlaylist(Long userId, Long playlistId);
 }

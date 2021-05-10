@@ -1,6 +1,7 @@
 package me.moon.Mtube.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.playlist.UserPlaylistResponseDto;
 import me.moon.Mtube.dto.user.*;
 import me.moon.Mtube.service.LoginService;
 import me.moon.Mtube.service.UserService;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("/api/v1/user")
@@ -72,7 +74,11 @@ public class UserApiController {
     /*
         재생목록 기능
      */
-    
+    //리스트 조회
+    @GetMapping("/{userId}/playlist/{playlistId}")
+    public List<UserPlaylistResponseDto> getPlaylist(@PathVariable("userId")Long userId, @PathVariable("playlistId") Long playlistId){
+        return userService.getPlaylist(userId, playlistId);
+    }
     //리스트 등록
     @PostMapping("/{userId}/playlist")
     public ResponseEntity addUserPlaylist(@PathVariable("userId")Long userId, @RequestParam("name") String name){

@@ -1,6 +1,7 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.playlist.UserPlaylistResponseDto;
 import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.user.*;
 import me.moon.Mtube.exception.DuplicatedEmailException;
@@ -127,9 +128,13 @@ public class UserService {
         Long loginUserId = userMapper.findUserByEmail(userEmail).getId();
         String playlistName = userMapper.getPlaylistName(playlistId);
         userMapper.addUserPlaylist(loginUserId, playlistName+"의 복사본");
-        List<Long> newPlaylistId = userMapper.getPlaylist(userId);
+        List<Long> newPlaylistId = userMapper.getUserPlaylist(userId);
         List<PostResponseDto> playlist = userMapper.getPlaylistInPostId(userId, playlistId);
         playlist.stream()
                 .forEach((post)-> userMapper.addPostInUserPlaylist(post.getId(),newPlaylistId.get(newPlaylistId.size())-1));
+    }
+
+    public List<UserPlaylistResponseDto> getPlaylist(Long userId, Long playlistId) {
+        return userMapper.getPlaylist(userId, playlistId);
     }
 }

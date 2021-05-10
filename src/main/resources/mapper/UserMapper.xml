@@ -80,7 +80,7 @@
         WHERE id=#{playlistId}
     </select>
 
-    <select id="getPlaylist">
+    <select id="getUserPlaylist">
         SELECT id FROM USER_PLAYLIST_NAME
         WHERE user_id=#{userId}
     </select>
@@ -88,5 +88,10 @@
     <select id="getPlaylistInPostId">
         SELECT video_post_id FROM USER_PLAYLIST
         WHERE user_id=#{userId} AND user_playlist_name_id=#{playlistId}
+    </select>
+
+    <select id="getPlaylist">
+        SELECT p.title AS title, n.name AS playlistName FROM VIDEO_POST p, USER_PLAYLIST_NAME n, USER_PLAYLIST l
+        WHERE p.id=l.video_post_id AND n.id=l.user_playlist_name_id AND n.id=#{playlistId} AND n.user_id=#{userId}
     </select>
 </mapper>
