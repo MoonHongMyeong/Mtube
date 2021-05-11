@@ -22,4 +22,8 @@ public interface PostMapper {
     void updatePost(PostUpdateRequestDto updateRequestDto);
 
     void deletePost(Long id);
+
+    void watchRecordStart(Long userId, Long postId);
+
+    void watchRecordEnd(Long userId, Long postId);
 }

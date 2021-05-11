@@ -28,7 +28,15 @@ public class PostApiController {
     //포스트 조회
     @GetMapping("/api/v1/video/{postId}")
     public PostResponseDto getPost(@PathVariable("postId") Long postId){
-        return postService.getPost(postId);
+        String userEmail=loginUser.getCurrentUser();
+        return postService.getPost(userEmail, postId);
+    }
+
+    @PutMapping("/api/v1/video/{postId}/recordEnd")
+    public ResponseEntity recordEnd(@PathVariable("postId") Long postId){
+        String userEmail=loginUser.getCurrentUser();
+        postService.recordEnd(userEmail, postId);
+        return new ResponseEntity(new Message("기록종료"), HttpStatus.OK);
     }
     //채널에 등록된 포스트 조회
     @GetMapping("/api/v1/channel/{channelId}/video")
