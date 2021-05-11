@@ -1,6 +1,7 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.like.UserLikePostResponseDto;
 import me.moon.Mtube.dto.playlist.UserPlaylistResponseDto;
 import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.user.*;
@@ -136,5 +137,9 @@ public class UserService {
 
     public List<UserPlaylistResponseDto> getPlaylist(Long userId, Long playlistId) {
         return userMapper.getPlaylist(userId, playlistId);
+    }
+
+    public List<UserLikePostResponseDto> getUserLikeList(Long userId) {
+        return userMapper.getUserLikeList(userId);
     }
 }

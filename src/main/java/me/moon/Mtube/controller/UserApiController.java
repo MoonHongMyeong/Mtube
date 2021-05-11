@@ -1,6 +1,7 @@
 package me.moon.Mtube.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.like.UserLikePostResponseDto;
 import me.moon.Mtube.dto.playlist.UserPlaylistResponseDto;
 import me.moon.Mtube.dto.user.*;
 import me.moon.Mtube.service.LoginService;
@@ -125,5 +126,11 @@ public class UserApiController {
         String userEmail = loginService.getCurrentUser();
         userService.deletePostInUserPlaylist(userEmail, userId, playlistId, postId);
         return new ResponseEntity(new Message("delete video in your playlist success!"), HttpStatus.OK);
+    }
+
+    //유저가 좋아요 한 리스트 조회
+    @GetMapping("/{userId}/like")
+    public List<UserLikePostResponseDto> getUserLikeList(@PathVariable("userId") Long userId){
+        return userService.getUserLikeList(userId);
     }
 }
