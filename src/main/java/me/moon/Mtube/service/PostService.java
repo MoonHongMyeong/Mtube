@@ -31,9 +31,24 @@ public class PostService {
         return postMapper.getPostList();
     }
 
-    public PostResponseDto getPost(Long postId) {
+    public PostResponseDto getPost(String userEmail, Long postId) {
         postMapper.plusViewCount(postId);
+        watchRecordStart(userEmail, postId);
         return postMapper.getPost(postId);
+    }
+
+    private void watchRecordStart(String userEmail, Long postId) {
+        if(userEmail != null){
+            Long userId = userMapper.findUserByEmail(userEmail).getId();
+            postMapper.watchRecordStart(userId, postId);
+        }
+    }
+
+    public void recordEnd(String userEmail, Long postId) {
+        if(userEmail != null){
+            Long userId = userMapper.findUserByEmail(userEmail).getId();
+            postMapper.watchRecordEnd(userId, postId);
+        }
     }
 
     public List<PostResponseDto> getChannelPostList(Long channelId) {
@@ -91,6 +106,7 @@ public class PostService {
         }
         postMapper.deletePost(postId);
     }
+
 
 
 }

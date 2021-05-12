@@ -1,13 +1,18 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.like.UserLikePostResponseDto;
+import me.moon.Mtube.dto.playlist.UserPlaylistResponseDto;
+import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.user.*;
 import me.moon.Mtube.exception.DuplicatedEmailException;
+import me.moon.Mtube.exception.UnsuitableUserException;
 import me.moon.Mtube.mapper.UserMapper;
 import me.moon.Mtube.util.PasswordEncryptor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -24,6 +29,8 @@ public class UserService {
         String encryptedPassword = encryptUser(saveRequestDto.getPassword());
         saveRequestDto.changeEncryptedPassword(encryptedPassword);
         userMapper.insertUser(saveRequestDto);
+        Long signUpUserId = userMapper.findUserByEmail(saveRequestDto.getEmail()).getId();
+        userMapper.addUserPlaylist(signUpUserId,"나중에 볼 동영상");
     }
 
     private String encryptUser(String password) {
@@ -80,5 +87,59 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호를 잘못 입력했습니다.");
         }
         return user;
+    }
+
+    public void addUserPlaylist(Long userId, String name) {
+        userMapper.addUserPlaylist(userId, name);
+    }
+
+    public void updateUserPlaylistName(String userEmail, Long userId, Long playlistId, String name) {
+        Long loginUserId = userMapper.findUserByEmail(userEmail).getId();
+        if(loginUserId != userId){
+            throw new UnsuitableUserException("자신의 플레이리스트만 수정할 수 있습니다.");
+        }
+        userMapper.updateUserPlaylistName(playlistId, name);
+    }
+
+    public void deleteUserPlaylist(String userEmail, Long userId, Long playlistId) {
+        Long loginUserId = userMapper.findUserByEmail(userEmail).getId();
+        if(loginUserId != userId){
+            throw new UnsuitableUserException("자신의 플레이리스트만 삭제 가능합니다.");
+        }
+        userMapper.deleteUserPlaylist(playlistId);
+    }
+    @Transactional
+    public void addPostInUserPlaylist(String userEmail, Long userId, Long playlistId, Long postId) {
+        Long loginUserId = userMapper.findUserByEmail(userEmail).getId();
+        if(loginUserId != userId){
+            throw new UnsuitableUserException("자신의 플레이리스트에만 비디오를 등록할 수 있습니다.");
+        }
+        userMapper.addPostInUserPlaylist(postId, playlistId);
+    }
+    @Transactional
+    public void deletePostInUserPlaylist(String userEmail, Long userId, Long playlistId, Long postId) {
+        Long loginUserId = userMapper.findUserByEmail(userEmail).getId();
+        if(loginUserId != userId){
+            throw new UnsuitableUserException("자신의 플레이리스트의 비디오만 삭제 가능합니다.");
+        }
+        userMapper.deletePostInUserPlaylist(postId, playlistId);
+    }
+
+    public void copyUserPlaylist(String userEmail, Long userId, Long playlistId) {
+        Long loginUserId = userMapper.findUserByEmail(userEmail).getId();
+        String playlistName = userMapper.getPlaylistName(playlistId);
+        userMapper.addUserPlaylist(loginUserId, playlistName+"의 복사본");
+        List<Long> newPlaylistId = userMapper.getUserPlaylist(userId);
+        List<PostResponseDto> playlist = userMapper.getPlaylistInPostId(userId, playlistId);
+        playlist.stream()
+                .forEach((post)-> userMapper.addPostInUserPlaylist(post.getId(),newPlaylistId.get(newPlaylistId.size())-1));
+    }
+
+    public List<UserPlaylistResponseDto> getPlaylist(Long userId, Long playlistId) {
+        return userMapper.getPlaylist(userId, playlistId);
+    }
+
+    public List<UserLikePostResponseDto> getUserLikeList(Long userId) {
+        return userMapper.getUserLikeList(userId);
     }
 }

@@ -46,4 +46,52 @@
         SELECT * FROM USER
         WHERE email = #{email}
     </select>
+
+    <!-- playlist -->
+
+    <insert id="addUserPlaylist">
+        INSERT INTO USER_PLAYLIST_NAME(name, user_id, created_date, modified_date)
+        VALUES(#{name}, #{userId}, NOW(), NOW())
+    </insert>
+
+    <update id="updateUserPlaylistName">
+        UPDATE USER_PLAYLIST_NAME SET name=#{name}, modified_date=NOW()
+        WHERE id=#{playlistId}
+    </update>
+
+    <delete id="deleteUserPlaylist">
+        DELETE FROM USER_PLAYLIST_NAME WHERE id=#{playlistId}
+    </delete>
+
+    <!-- playlist in video -->
+
+    <insert id="addPostInUserPlaylist">
+        INSERT INTO USER_PLAYLIST(video_post_id, user_playlist_name_id, created_date, modified_date)
+        VALUES(#{postId}, #{playlistId}, NOW(), NOW())
+    </insert>
+
+    <delete id="deletePostInUserPlaylist">
+        DELETE FROM USER_PLAYLIST WHERE video_post_id=#{postId} AND user_playlist_name_id=#{playlistId}
+    </delete>
+
+    <!-- copy playlist -->
+    <select id="getPlaylistName" resultType="string">
+        SELECT name FROM USER_PLAYLIST_NAME
+        WHERE id=#{playlistId}
+    </select>
+
+    <select id="getUserPlaylist">
+        SELECT id FROM USER_PLAYLIST_NAME
+        WHERE user_id=#{userId}
+    </select>
+
+    <select id="getPlaylistInPostId">
+        SELECT video_post_id FROM USER_PLAYLIST
+        WHERE user_id=#{userId} AND user_playlist_name_id=#{playlistId}
+    </select>
+
+    <select id="getPlaylist">
+        SELECT p.title AS title, n.name AS playlistName FROM VIDEO_POST p, USER_PLAYLIST_NAME n, USER_PLAYLIST l
+        WHERE p.id=l.video_post_id AND n.id=l.user_playlist_name_id AND n.id=#{playlistId} AND n.user_id=#{userId}
+    </select>
 </mapper>
