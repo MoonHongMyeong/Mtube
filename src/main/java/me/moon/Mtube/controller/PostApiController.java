@@ -25,6 +25,10 @@ public class PostApiController {
     public List<PostResponseDto> getPostList(){
         return postService.getPostList();
     }
+    @GetMapping("/api/v1/explore/{category}")
+    public List<PostResponseDto> getExplorePostList(@PathVariable("category") String category){
+        return postService.getExplorePostList(category);
+    }
     //포스트 조회
     @GetMapping("/api/v1/video/{postId}")
     public PostResponseDto getPost(@PathVariable("postId") Long postId){

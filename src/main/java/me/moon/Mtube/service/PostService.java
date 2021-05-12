@@ -31,6 +31,14 @@ public class PostService {
         return postMapper.getPostList();
     }
 
+    public List<PostResponseDto> getExplorePostList(String category) {
+        if(category != null) {
+            return postMapper.getExplorePostList(category);
+        }else{
+            return postMapper.getMainExplorePostList();
+        }
+    }
+
     public PostResponseDto getPost(String userEmail, Long postId) {
         postMapper.plusViewCount(postId);
         watchRecordStart(userEmail, postId);
@@ -106,7 +114,5 @@ public class PostService {
         }
         postMapper.deletePost(postId);
     }
-
-
 
 }

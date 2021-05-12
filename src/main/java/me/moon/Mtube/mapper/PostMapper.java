@@ -26,4 +26,8 @@ public interface PostMapper {
     void watchRecordStart(Long userId, Long postId);
 
     void watchRecordEnd(Long userId, Long postId);
+
+    List<PostResponseDto> getExplorePostList(String category);
+
+    List<PostResponseDto> getMainExplorePostList();
 }
