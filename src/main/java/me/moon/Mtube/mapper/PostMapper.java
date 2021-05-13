@@ -30,4 +30,6 @@ public interface PostMapper {
     List<PostResponseDto> getExplorePostList(String category);
 
     List<PostResponseDto> getMainExplorePostList();
+
+    List<PostResponseDto> getUserSubscribePostList(Long userId);
 }

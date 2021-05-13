@@ -39,6 +39,13 @@ public class PostService {
         }
     }
 
+    public List<PostResponseDto> getUserSubscribePostList(Long userId) {
+        if(userId == null){
+            throw new IllegalArgumentException("로그인이 필요한 서비스 입니다.");
+        }
+        return postMapper.getUserSubscribePostList(userId);
+    }
+
     public PostResponseDto getPost(String userEmail, Long postId) {
         postMapper.plusViewCount(postId);
         watchRecordStart(userEmail, postId);
@@ -114,5 +121,6 @@ public class PostService {
         }
         postMapper.deletePost(postId);
     }
+
 
 }
