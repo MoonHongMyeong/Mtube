@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.comment.CommentResponseDto;
 import me.moon.Mtube.service.SessionLoginUser;
 import me.moon.Mtube.service.StudioService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import me.moon.Mtube.util.Message;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +28,13 @@ public class StudioApiController {
     public List<CommentResponseDto> getStudioComment(@PathVariable("channelId") Long channelId){
         String userEmail = loginUser.getCurrentUser();
         return studioService.getStudioComment(userEmail,channelId);
+    }
+
+    //채널의 포스트에 달린 댓글에 하트 주기
+    @PutMapping("/comment/{commentId}/heart")
+    public ResponseEntity giveHeart(@PathVariable("channelId") Long channelId, @PathVariable("commentId") Long commentId){
+        String userEmail= loginUser.getCurrentUser();
+        studioService.giveHeart(userEmail, channelId, commentId);
+        return new ResponseEntity(new Message("해당 댓글에 하트를 추가하였습니다"), HttpStatus.OK);
     }
 }

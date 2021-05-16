@@ -7,4 +7,9 @@
         FROM COMMENT c, VIDEO_POST v
         WHERE v.channel_id=#{channelId} AND c.video_post_id=v.id
     </select>
+
+    <update id="giveHeart">
+        UPDATE COMMENT SET heart="HEART"
+        WHERE id=#{commentId}
+    </update>
 </mapper>

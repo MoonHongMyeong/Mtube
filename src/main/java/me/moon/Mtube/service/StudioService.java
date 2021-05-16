@@ -27,4 +27,13 @@ public class StudioService {
         }
         return studioMapper.getStudioComment(channelId);
     }
+
+    public void giveHeart(String userEmail, Long channelId, Long commentId) {
+        Long userId = userMapper.findUserByEmail(userEmail).getId();
+        Long channelUserId=channelMapper.getChannel(channelId).getUser_id();
+        if(userId!=channelUserId){
+            throw new UnsuitableUserException("채널의 관리자만 사용할 수 있는 기능입니다.");
+        }
+        studioMapper.giveHeart(commentId);
+    }
 }
