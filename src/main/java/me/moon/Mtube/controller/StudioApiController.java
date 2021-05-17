@@ -37,4 +37,12 @@ public class StudioApiController {
         studioService.giveHeart(userEmail, channelId, commentId);
         return new ResponseEntity(new Message("해당 댓글에 하트를 추가하였습니다"), HttpStatus.OK);
     }
+
+    //채널의 포스트에 달린 댓글 삭제
+    @DeleteMapping("/comment/{commentId}")
+    public ResponseEntity deleteCommentByPostOwner(@PathVariable("channelId") Long channelId, @PathVariable("commentId") Long commentId){
+        String userEmail= loginUser.getCurrentUser();
+        studioService.deleteCommentByPostOwner(userEmail, channelId, commentId);
+        return new ResponseEntity(new Message("해당 댓글을 삭제하였습니다."), HttpStatus.OK);
+    }
 }
