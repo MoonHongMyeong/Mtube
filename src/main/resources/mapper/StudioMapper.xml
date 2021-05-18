@@ -12,4 +12,8 @@
         UPDATE COMMENT SET heart="HEART"
         WHERE id=#{commentId}
     </update>
+
+    <select id="getTotalView">
+        SELECT SUM(view_count) FROM VIDEO_POST WHERE channel_id=#{channelId}
+    </select>
 </mapper>

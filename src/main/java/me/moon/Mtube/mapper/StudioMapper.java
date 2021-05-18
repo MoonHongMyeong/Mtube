@@ -10,4 +10,6 @@ public interface StudioMapper {
     List<CommentResponseDto> getStudioComment(Long channelId);
 
     void giveHeart(Long commentId);
+
+    int getTotalView(Long channelId);
 }

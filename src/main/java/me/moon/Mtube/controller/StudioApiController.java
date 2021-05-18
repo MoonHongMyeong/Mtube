@@ -45,4 +45,11 @@ public class StudioApiController {
         studioService.deleteCommentByPostOwner(userEmail, channelId, commentId);
         return new ResponseEntity(new Message("해당 댓글을 삭제하였습니다."), HttpStatus.OK);
     }
+
+    //모든 포스트의 조회 수 확인
+    @GetMapping("/view")
+    public int getTotalView(@PathVariable("channelId") Long channelId){
+        String userEmail = loginUser.getCurrentUser();
+        return studioService.getTotalView(userEmail, channelId);
+    }
 }
