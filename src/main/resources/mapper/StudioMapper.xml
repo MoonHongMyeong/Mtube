@@ -16,4 +16,8 @@
     <select id="getTotalView">
         SELECT SUM(view_count) FROM VIDEO_POST WHERE channel_id=#{channelId}
     </select>
+
+    <select id="getSubscriberCount" resultType="int">
+        SELECT COUNT(*) FROM SUBSCRIBE WHERE channel_id=#{channelId}
+    </select>
 </mapper>

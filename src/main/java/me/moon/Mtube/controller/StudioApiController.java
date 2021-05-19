@@ -52,4 +52,10 @@ public class StudioApiController {
         String userEmail = loginUser.getCurrentUser();
         return studioService.getTotalView(userEmail, channelId);
     }
+
+    //채널의 구독자 수 확인
+    @GetMapping("/subscriber")
+    public int getSubscriberCount(@PathVariable("channelId") Long channelId){
+        return studioService.getSubscriberCount(channelId);
+    }
 }

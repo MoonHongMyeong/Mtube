@@ -12,4 +12,6 @@ public interface StudioMapper {
     void giveHeart(Long commentId);
 
     int getTotalView(Long channelId);
+
+    int getSubscriberCount(Long channelId);
 }

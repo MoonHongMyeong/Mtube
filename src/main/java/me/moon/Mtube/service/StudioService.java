@@ -56,4 +56,8 @@ public class StudioService {
         }
         return studioMapper.getTotalView(channelId);
     }
+
+    public int getSubscriberCount(Long channelId) {
+        return studioMapper.getSubscriberCount(channelId);
+    }
 }
