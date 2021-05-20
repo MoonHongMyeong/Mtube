@@ -1,6 +1,7 @@
 package me.moon.Mtube.mapper;
 
 import me.moon.Mtube.dto.comment.CommentResponseDto;
+import me.moon.Mtube.dto.studio.SubscriberResponseDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface StudioMapper {
     int getTotalView(Long channelId);
 
     int getSubscriberCount(Long channelId);
+
+    List<SubscriberResponseDto> getSubscriberCountOrderByMonth(Long channelId);
 }

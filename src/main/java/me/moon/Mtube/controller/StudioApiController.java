@@ -2,6 +2,7 @@ package me.moon.Mtube.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.comment.CommentResponseDto;
+import me.moon.Mtube.dto.studio.SubscriberResponseDto;
 import me.moon.Mtube.service.SessionLoginUser;
 import me.moon.Mtube.service.StudioService;
 import me.moon.Mtube.util.Message;
@@ -57,5 +58,11 @@ public class StudioApiController {
     @GetMapping("/subscriber")
     public int getSubscriberCount(@PathVariable("channelId") Long channelId){
         return studioService.getSubscriberCount(channelId);
+    }
+
+    //채널의 구독자 수 월별 확인
+    @GetMapping("/subscriber/month")
+    public List<SubscriberResponseDto> getSubscriberCountInMonth(@PathVariable("channelId") Long channelId) {
+        return studioService.getSubscriberCountOrderByMonth(channelId);
     }
 }

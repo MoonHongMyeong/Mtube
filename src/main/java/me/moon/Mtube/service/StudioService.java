@@ -3,6 +3,7 @@ package me.moon.Mtube.service;
 import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.channel.ChannelResponseDto;
 import me.moon.Mtube.dto.comment.CommentResponseDto;
+import me.moon.Mtube.dto.studio.SubscriberResponseDto;
 import me.moon.Mtube.exception.UnsuitableUserException;
 import me.moon.Mtube.mapper.ChannelMapper;
 import me.moon.Mtube.mapper.CommentMapper;
@@ -59,5 +60,9 @@ public class StudioService {
 
     public int getSubscriberCount(Long channelId) {
         return studioMapper.getSubscriberCount(channelId);
+    }
+
+    public List<SubscriberResponseDto> getSubscriberCountOrderByMonth(Long channelId) {
+        return studioMapper.getSubscriberCountOrderByMonth(channelId);
     }
 }

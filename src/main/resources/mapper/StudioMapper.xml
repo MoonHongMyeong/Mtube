@@ -20,4 +20,8 @@
     <select id="getSubscriberCount" resultType="int">
         SELECT COUNT(*) FROM SUBSCRIBE WHERE channel_id=#{channelId}
     </select>
+
+    <select id="getSubscriberCountOrderByMonth">
+        SELECT DATE_FORMAT(created_date,'%Y-%m') orderByMonth , COUNT(*) FROM SUBSCRIBE WHERE channel_id=#{channelId} GROUP BY orderByMonth
+    </select>
 </mapper>
