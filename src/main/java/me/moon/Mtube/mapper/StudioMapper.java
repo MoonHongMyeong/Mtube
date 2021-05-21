@@ -17,4 +17,6 @@ public interface StudioMapper {
     int getSubscriberCount(Long channelId);
 
     List<SubscriberResponseDto> getSubscriberCountOrderByMonth(Long channelId);
+
+    String getTotalTimeByAllPost(Long channelId);
 }

@@ -24,4 +24,8 @@
     <select id="getSubscriberCountOrderByMonth">
         SELECT DATE_FORMAT(created_date,'%Y-%m') orderByMonth , COUNT(*) FROM SUBSCRIBE WHERE channel_id=#{channelId} GROUP BY orderByMonth
     </select>
+
+    <select id="getTotalTimeByAllPost" resultType="String">
+        SELECT SUM(r.end_time - r.start_time) FROM USER_WATCH_RECORDS r, VIDEO_POST v WHERE v.channel_id=#{channelId} AND v.id=r.video_post_id
+    </select>
 </mapper>

@@ -65,4 +65,11 @@ public class StudioApiController {
     public List<SubscriberResponseDto> getSubscriberCountInMonth(@PathVariable("channelId") Long channelId) {
         return studioService.getSubscriberCountOrderByMonth(channelId);
     }
+
+    //내 비디오들의 시청시간 총합 조회
+    @GetMapping("/view/time")
+    public String getToTalTimeByAllPost(@PathVariable("channelId") Long channelId){
+        String userEmail= loginUser.getCurrentUser();
+        return studioService.getTotalTimeByAllPost(userEmail,channelId);
+    }
 }
