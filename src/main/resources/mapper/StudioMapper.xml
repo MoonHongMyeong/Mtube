@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.moon.Mtube.mapper.StudioMapper">
+    <select id="getStudioComment">
+        SELECT c.id, c.content, c.user_id, c.like_count, c.dislike_count, c.heart, c.parent, c.modified_date
+        FROM COMMENT c, VIDEO_POST v
+        WHERE v.channel_id=#{channelId} AND c.video_post_id=v.id
+    </select>
+
+    <update id="giveHeart">
+        UPDATE COMMENT SET heart="HEART"
+        WHERE id=#{commentId}
+    </update>
+
+    <select id="getTotalView">
+        SELECT SUM(view_count) FROM VIDEO_POST WHERE channel_id=#{channelId}
+    </select>
+
+    <select id="getSubscriberCount" resultType="int">
+        SELECT COUNT(*) FROM SUBSCRIBE WHERE channel_id=#{channelId}
+    </select>
+
+    <select id="getSubscriberCountOrderByMonth">
+        SELECT DATE_FORMAT(created_date,'%Y-%m') orderByMonth , COUNT(*) FROM SUBSCRIBE WHERE channel_id=#{channelId} GROUP BY orderByMonth
+    </select>
+
+    <select id="getTotalTimeByAllPost" resultType="String">
+        SELECT SUM(r.end_time - r.start_time) FROM USER_WATCH_RECORDS r, VIDEO_POST v WHERE v.channel_id=#{channelId} AND v.id=r.video_post_id
+    </select>
+</mapper>
