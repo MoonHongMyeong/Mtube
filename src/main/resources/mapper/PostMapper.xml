@@ -6,6 +6,18 @@
         SELECT * FROM VIDEO_POST WHERE isRemoved="NONE"
     </select>
 
+    <select id="getMainExplorePostList">
+        SELECT * FROM VIDEO_POST WHERE isRemoved="NONE" ORDER BY FIELD(view_count) DESC, created_date DESC
+    </select>
+
+    <select id="getExplorePostList">
+        SELECT * FROM VIDEO_POST WHERE isRemoved="NONE" AND category=#{category} ORDER BY FIELD(view_count) DESC, created_date DESC
+    </select>
+
+    <select id="getUserSubscribePostList">
+        SELECT * FROM VIDEO_POST v, SUBSCRIBE s WHERE v.channel_id=s.channel_id AND s.user_id=#{userId} AND v.isRemoved="NONE" ORDER BY created_date DESC
+    </select>
+
     <select id="getChannelPostList">
         SELECT * FROM VIDEO_POST WHERE isRemoved="NONE" AND channel_id=#{channelId}
     </select>
