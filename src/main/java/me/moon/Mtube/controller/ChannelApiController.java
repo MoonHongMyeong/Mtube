@@ -7,6 +7,7 @@ import me.moon.Mtube.dto.channel.ChannelUpdateRequestDto;
 import me.moon.Mtube.dto.comment.ChannelCommentResponseDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
+import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.service.ChannelService;
 import me.moon.Mtube.service.CommentService;
 import me.moon.Mtube.service.SessionLoginUser;
@@ -34,24 +35,24 @@ public class ChannelApiController {
     //채널 추가
     @PostMapping
     public ResponseEntity addChannel(@RequestBody ChannelSaveRequestDto saveRequestDto){
-        String userEmail = loginUser.getCurrentUser();
-        channelService.addChannel(userEmail, saveRequestDto);
+        UserResponseDto userDto = loginUser.getCurrentUser();
+        channelService.addChannel(userDto, saveRequestDto);
         return new ResponseEntity(new Message("channel make success!"), HttpStatus.CREATED);
     }
 
     //채널 수정
     @PutMapping("/{channelId}")
     public ResponseEntity updateChannel(@PathVariable("channelId") Long channelId, @RequestBody ChannelUpdateRequestDto updateRequestDto){
-        String userEmail = loginUser.getCurrentUser();
-        channelService.updateChannel(userEmail, channelId, updateRequestDto);
+        UserResponseDto userDto = loginUser.getCurrentUser();
+        channelService.updateChannel(userDto, channelId, updateRequestDto);
         return new ResponseEntity(new Message("channel update success!"), HttpStatus.OK);
     }
 
     //채널 삭제
     @DeleteMapping("/{channelId}")
     public ResponseEntity deleteChannel(@PathVariable("channelId") Long channelId){
-        String userEmail = loginUser.getCurrentUser();
-        channelService.deleteChannel(userEmail, channelId);
+        UserResponseDto userDto = loginUser.getCurrentUser();
+        channelService.deleteChannel(userDto, channelId);
         return new ResponseEntity(new Message("channel delete success!"), HttpStatus.OK);
     }
 
@@ -83,8 +84,8 @@ public class ChannelApiController {
     //채널관리자의 댓글 삭제
     @DeleteMapping("/{channelId}/comment/{commentId}")
     public ResponseEntity videoOwnerDeleteComment(@PathVariable("channelId") Long channelId, @PathVariable("commentId") Long commentId){
-        String userEmail = loginUser.getCurrentUser();
-        channelService.deleteCommentByVideoOwner(channelId, commentId, userEmail);
+        UserResponseDto userDto = loginUser.getCurrentUser();
+        channelService.deleteCommentByVideoOwner(channelId, commentId, userDto);
         return new ResponseEntity(new Message("댓글을 삭제했습니다."), HttpStatus.OK);
     }
 }
