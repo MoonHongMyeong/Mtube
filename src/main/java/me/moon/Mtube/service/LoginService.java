@@ -1,9 +1,10 @@
 package me.moon.Mtube.service;
 
 
+import me.moon.Mtube.dto.user.UserResponseDto;
 
 public interface LoginService {
-    void loginUser(String email);
+    void loginUser(UserResponseDto userDto);
     void logoutUser();
-    String getCurrentUser();
+    UserResponseDto getCurrentUser();
 }

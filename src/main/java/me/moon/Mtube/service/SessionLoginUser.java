@@ -1,6 +1,7 @@
 package me.moon.Mtube.service;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.user.UserResponseDto;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -9,21 +10,21 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class SessionLoginUser implements LoginService{
 
-    private static final String USER_EMAIL = "USER_EMAIL";
+    private static final String USER = "USER";
     private final HttpSession httpSession;
 
     @Override
-    public void loginUser(String email) {
-        httpSession.setAttribute(USER_EMAIL, email);
+    public void loginUser(UserResponseDto userDto) {
+        httpSession.setAttribute(USER, userDto);
     }
 
     @Override
     public void logoutUser() {
-        httpSession.removeAttribute(USER_EMAIL);
+        httpSession.removeAttribute(USER);
     }
 
     @Override
-    public String getCurrentUser() {
-        return (String) httpSession.getAttribute(USER_EMAIL);
+    public UserResponseDto getCurrentUser() {
+        return (UserResponseDto) httpSession.getAttribute(USER);
     }
 }

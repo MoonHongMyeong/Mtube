@@ -57,7 +57,7 @@ public class UserApiController {
     public ResponseEntity login(@RequestBody LoginUserDto userDto){
         Optional<LoginUserDto> user = userService.findUserByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
         if(user.isPresent()){
-            loginService.loginUser(user.get().getEmail());
+            loginService.loginUser(new UserResponseDto(user.get()));
             return new ResponseEntity(new Message("Login Success!"), HttpStatus.OK);
         }else{
             return new ResponseEntity(new Message("Login failed..."),HttpStatus.NOT_FOUND);
@@ -91,22 +91,22 @@ public class UserApiController {
     public ResponseEntity updateUserPlaylistName(@PathVariable("userId")Long userId,
                                                  @PathVariable("playlistId") Long playlistId,
                                                  @RequestParam("name") String name){
-        String userEmail = loginService.getCurrentUser();
-        userService.updateUserPlaylistName(userEmail ,userId, playlistId, name);
+        UserResponseDto userDto = loginService.getCurrentUser();
+        userService.updateUserPlaylistName(userDto ,userId, playlistId, name);
         return new ResponseEntity(new Message("update playlist name success!"), HttpStatus.OK);
     }
     //리스트 삭제
     @DeleteMapping("/{userId}/playlist/{playlistId}")
     public ResponseEntity deleteUserPlaylist(@PathVariable("userId") Long userId, @PathVariable("playlistId") Long playlistId){
-        String userEmail = loginService.getCurrentUser();
-        userService.deleteUserPlaylist(userEmail, userId, playlistId);
+        UserResponseDto userDto = loginService.getCurrentUser();
+        userService.deleteUserPlaylist(userDto, userId, playlistId);
         return new ResponseEntity(new Message("delete playlist success!"), HttpStatus.OK);
     }
     //유저의 플레이리스트 복사
     @PostMapping("/{userId}/playlist/{playlistId}/copy")
     public ResponseEntity copyUserPlaylist(@PathVariable("userId") Long userId, @PathVariable("playlistId")Long playlistId){
-        String userEmail = loginService.getCurrentUser();
-        userService.copyUserPlaylist(userEmail, userId, playlistId);
+        UserResponseDto userDto = loginService.getCurrentUser();
+        userService.copyUserPlaylist(userDto, userId, playlistId);
         return new ResponseEntity(new Message("coply playlist success!"), HttpStatus.CREATED);
     }
     //리스트에 포스트 추가
@@ -114,8 +114,8 @@ public class UserApiController {
     public ResponseEntity addPostInUserPlaylist(@PathVariable("userId") Long userId,
                                                 @PathVariable("playlistId") Long playlistId,
                                                 @PathVariable("postId") Long postId){
-        String userEmail = loginService.getCurrentUser();
-        userService.addPostInUserPlaylist(userEmail, userId, playlistId, postId);
+        UserResponseDto userDto = loginService.getCurrentUser();
+        userService.addPostInUserPlaylist(userDto, userId, playlistId, postId);
         return new ResponseEntity(new Message("add video in your playlist success!"), HttpStatus.CREATED);
     }
     //리스트에 포스트 삭제
@@ -123,8 +123,8 @@ public class UserApiController {
     public ResponseEntity deletePostInUserPlaylist(@PathVariable("userId") Long userId,
                                                 @PathVariable("playlistId") Long playlistId,
                                                 @PathVariable("postId") Long postId){
-        String userEmail = loginService.getCurrentUser();
-        userService.deletePostInUserPlaylist(userEmail, userId, playlistId, postId);
+        UserResponseDto userDto = loginService.getCurrentUser();
+        userService.deletePostInUserPlaylist(userDto, userId, playlistId, postId);
         return new ResponseEntity(new Message("delete video in your playlist success!"), HttpStatus.OK);
     }
 
