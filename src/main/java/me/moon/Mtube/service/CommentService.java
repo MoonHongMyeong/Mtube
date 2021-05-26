@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.comment.CommentResponseDto;
 import me.moon.Mtube.dto.comment.CommentSaveRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
+import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.exception.UnsuitableUserException;
 import me.moon.Mtube.mapper.CommentMapper;
 import me.moon.Mtube.mapper.UserMapper;
@@ -22,23 +23,20 @@ public class CommentService {
         return commentMapper.getCommentList(postId);
     }
 
-    public void addComment(String userEmail, Long postId, CommentSaveRequestDto saveRequestDto) {
-        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+    public void addComment(UserResponseDto userDto, Long postId, CommentSaveRequestDto saveRequestDto) {
         saveRequestDto.setUserId(userDto.getId());
         saveRequestDto.setPostId(postId);
         commentMapper.addComment(saveRequestDto);
     }
 
-    public void addReplies(String userEmail, Long parent, Long postId, CommentSaveRequestDto saveRequestDto) {
-        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+    public void addReplies(UserResponseDto userDto, Long parent, Long postId, CommentSaveRequestDto saveRequestDto) {
         saveRequestDto.setUserId(userDto.getId());
         saveRequestDto.setPostId(postId);
         saveRequestDto.setParent(parent);
         commentMapper.addComment(saveRequestDto);
     }
 
-    public void updateComment(String userEmail, Long commentId, String content) {
-        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+    public void updateComment(UserResponseDto userDto, Long commentId, String content) {
         if(isMatchCommentByUserId(userDto.getId(), commentId)){
             throw new UnsuitableUserException("본인이 작성한 댓글만 수정이 가능합니다.");
         }
@@ -57,8 +55,7 @@ public class CommentService {
         }
     }
 
-    public void deleteComment(String userEmail, Long commentId) {
-        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
+    public void deleteComment(UserResponseDto userDto, Long commentId) {
         if(isMatchCommentByUserId(userDto.getId(), commentId)){
             throw new UnsuitableUserException("본인이 작성한 댓글만 삭제가 가능합니다.");
         }
