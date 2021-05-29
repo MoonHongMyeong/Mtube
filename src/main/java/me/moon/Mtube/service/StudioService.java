@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.channel.ChannelResponseDto;
 import me.moon.Mtube.dto.comment.CommentResponseDto;
 import me.moon.Mtube.dto.studio.SubscriberResponseDto;
+import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.exception.UnsuitableUserException;
 import me.moon.Mtube.mapper.ChannelMapper;
 import me.moon.Mtube.mapper.CommentMapper;
@@ -22,37 +23,33 @@ public class StudioService {
     private final StudioMapper studioMapper;
     private final CommentMapper commentMapper;
 
-    public List<CommentResponseDto> getStudioComment(String userEmail, Long channelId) {
-        Long userId = userMapper.findUserByEmail(userEmail).getId();
+    public List<CommentResponseDto> getStudioComment(UserResponseDto userDto, Long channelId) {
         ChannelResponseDto myChannel = channelMapper.getChannel(channelId);
-        if(userId != myChannel.getUser_id()){
+        if(userDto.getId() != myChannel.getUser_id()){
             throw new UnsuitableUserException("채널의 주인만 사용할 수 있는 기능입니다.");
         }
         return studioMapper.getStudioComment(channelId);
     }
 
-    public void giveHeart(String userEmail, Long channelId, Long commentId) {
-        Long userId = userMapper.findUserByEmail(userEmail).getId();
+    public void giveHeart(UserResponseDto userDto, Long channelId, Long commentId) {
         Long channelUserId=channelMapper.getChannel(channelId).getUser_id();
-        if(userId!=channelUserId){
+        if(userDto.getId()!=channelUserId){
             throw new UnsuitableUserException("채널의 관리자만 사용할 수 있는 기능입니다.");
         }
         studioMapper.giveHeart(commentId);
     }
 
-    public void deleteCommentByPostOwner(String userEmail, Long channelId, Long commentId) {
-        Long userId = userMapper.findUserByEmail(userEmail).getId();
+    public void deleteCommentByPostOwner(UserResponseDto userDto, Long channelId, Long commentId) {
         Long channelUserId=channelMapper.getChannel(channelId).getUser_id();
-        if(userId!=channelUserId){
+        if(userDto.getId()!=channelUserId){
             throw new UnsuitableUserException("채널의 관리자만 사용할 수 있는 기능입니다.");
         }
         commentMapper.deleteComment(commentId);
     }
 
-    public int getTotalView(String userEmail, Long channelId) {
-        Long userId = userMapper.findUserByEmail(userEmail).getId();
+    public int getTotalView(UserResponseDto userDto, Long channelId) {
         Long channelUserId=channelMapper.getChannel(channelId).getUser_id();
-        if(userId != channelUserId){
+        if(userDto.getId() != channelUserId){
             throw new UnsuitableUserException("채널의 관리자만 사용할 수 있는 기능입니다.");
         }
         return studioMapper.getTotalView(channelId);
@@ -66,10 +63,9 @@ public class StudioService {
         return studioMapper.getSubscriberCountOrderByMonth(channelId);
     }
 
-    public String getTotalTimeByAllPost(String userEmail, Long channelId) {
-        Long userId = userMapper.findUserByEmail(userEmail).getId();
+    public String getTotalTimeByAllPost(UserResponseDto userDto, Long channelId) {
         Long channelUserId=channelMapper.getChannel(channelId).getUser_id();
-        if(userId != channelUserId){
+        if(userDto.getId() != channelUserId){
             throw new UnsuitableUserException("채널의 관리자만 사용할 수 있는 기능입니다.");
         }
         return studioMapper.getTotalTimeByAllPost(channelId);
