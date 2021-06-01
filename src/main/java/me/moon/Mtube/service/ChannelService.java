@@ -8,6 +8,7 @@ import me.moon.Mtube.dto.comment.ChannelCommentResponseDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
+import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.exception.UnsuitableUserException;
 import me.moon.Mtube.mapper.ChannelMapper;
 import me.moon.Mtube.mapper.CommentMapper;
@@ -28,11 +29,10 @@ public class ChannelService {
         return channelMapper.getChannel(channelId);
     }
 
-    public void addChannel(String userEmail, ChannelSaveRequestDto saveRequestDto) {
+    public void addChannel(UserResponseDto userDto, ChannelSaveRequestDto saveRequestDto) {
         if(toExistChannelByName(saveRequestDto.getName())){
             throw new IllegalArgumentException("같은 이름의 채널이 존재합니다. \n 채널이름은 중복 될 수 없습니다.");
         }
-        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
         saveRequestDto.setUser(userDto.getId());
         channelMapper.addChannel(saveRequestDto);
 
@@ -49,9 +49,8 @@ public class ChannelService {
         return channelMapper.toExistChannelByName(name);
     }
 
-    public void updateChannel(String userEmail, Long channelId, ChannelUpdateRequestDto updateRequestDto) {
+    public void updateChannel(UserResponseDto userDto, Long channelId, ChannelUpdateRequestDto updateRequestDto) {
         ChannelResponseDto channelDto = channelMapper.getChannel(channelId);
-        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
         if(channelDto.getUser_id() != userDto.getId()){
             throw new UnsuitableUserException("자신이 등록한 채널만 수정이 가능합니다. \n 잘못 된 요청입니다.");
         }
@@ -59,9 +58,8 @@ public class ChannelService {
         channelMapper.updateChannel(updateRequestDto);
     }
 
-    public void deleteChannel(String userEmail, Long channelId) {
+    public void deleteChannel(UserResponseDto userDto, Long channelId) {
         ChannelResponseDto channelDto = channelMapper.getChannel(channelId);
-        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
         if(channelDto.getUser_id() != userDto.getId()){
             throw new UnsuitableUserException("자신이 등록한 채널만 삭제가 가능합니다. \n 잘못 된 요청입니다.");
         }
@@ -90,9 +88,9 @@ public class ChannelService {
     채널 댓글 관리 기능
     */
     
-    public void deleteCommentByVideoOwner(Long channelId, Long commentId, String userEmail) {
+    public void deleteCommentByVideoOwner(Long channelId, Long commentId, UserResponseDto userDto) {
         ChannelResponseDto channelDto = channelMapper.getChannel(channelId);
-        if(userMapper.findUserByEmail(userEmail).getId() != channelDto.getUser_id()){
+        if(userDto.getId() != channelDto.getUser_id()){
             throw new UnsuitableUserException("본인이 작성한 포스트의 댓글만 삭제 가능합니다.");
         }
         commentMapper.deleteComment(commentId);

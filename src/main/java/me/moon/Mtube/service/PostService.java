@@ -46,23 +46,21 @@ public class PostService {
         return postMapper.getUserSubscribePostList(userId);
     }
 
-    public PostResponseDto getPost(String userEmail, Long postId) {
+    public PostResponseDto getPost(UserResponseDto userDto, Long postId) {
         postMapper.plusViewCount(postId);
-        watchRecordStart(userEmail, postId);
+        watchRecordStart(userDto, postId);
         return postMapper.getPost(postId);
     }
 
-    private void watchRecordStart(String userEmail, Long postId) {
-        if(userEmail != null){
-            Long userId = userMapper.findUserByEmail(userEmail).getId();
-            postMapper.watchRecordStart(userId, postId);
+    private void watchRecordStart(UserResponseDto userDto, Long postId) {
+        if(userDto != null){
+            postMapper.watchRecordStart(userDto.getId(), postId);
         }
     }
 
-    public void recordEnd(String userEmail, Long postId) {
-        if(userEmail != null){
-            Long userId = userMapper.findUserByEmail(userEmail).getId();
-            postMapper.watchRecordEnd(userId, postId);
+    public void recordEnd(UserResponseDto userDto, Long postId) {
+        if(userDto != null){
+            postMapper.watchRecordEnd(userDto.getId(), postId);
         }
     }
 
@@ -70,10 +68,8 @@ public class PostService {
         return postMapper.getChannelPostList(channelId);
     }
 
-    public void addPost(String userEmail, Long channelId, PostSaveRequestDto saveRequestDto) {
-        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
-        Long userId = userDto.getId();
-        if(!isMatchChannelByUserId(userId, channelId)){
+    public void addPost(UserResponseDto userDto, Long channelId, PostSaveRequestDto saveRequestDto) {
+        if(!isMatchChannelByUserId(userDto.getId(), channelId)){
             throw new UnsuitableUserException("본인의 채널이 아닙니다. \n 본인의 채널에서만 포스트를 등록할 수 있습니다.");
         }
         postMapper.addPost(saveRequestDto);
@@ -95,28 +91,22 @@ public class PostService {
         return channelMapper.isMatchChannelByUserId(userId, channelId);
     }
 
-    public void addTempPost(String userEmail, Long channelId, PostSaveRequestDto saveRequestDto) {
-        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
-        Long userId = userDto.getId();
-        if(!isMatchChannelByUserId(userId, channelId)){
+    public void addTempPost(UserResponseDto userDto, Long channelId, PostSaveRequestDto saveRequestDto) {
+        if(!isMatchChannelByUserId(userDto.getId(), channelId)){
             throw new UnsuitableUserException("본인의 채널이 아닙니다. \n 본인의 채널에서만 포스트를 임시 등록할 수 있습니다.");
         }
         postMapper.addTempPost(saveRequestDto);
     }
 
-    public void updatePost(String userEmail, Long channelId, Long postId, PostUpdateRequestDto updateRequestDto) {
-        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
-        Long userId = userDto.getId();
-        if(!isMatchChannelByUserId(userId, channelId)){
+    public void updatePost(UserResponseDto userDto, Long channelId, Long postId, PostUpdateRequestDto updateRequestDto) {
+        if(!isMatchChannelByUserId(userDto.getId(), channelId)){
             throw new UnsuitableUserException("본인의 채널이 아닙니다. \n 본인의 채널에서만 작성한 포스트를 수정할 수 있습니다.");
         }
         postMapper.updatePost(updateRequestDto);
     }
 
-    public void deletePost(String userEmail, Long channelId, Long postId) {
-        LoginUserDto userDto = userMapper.findUserByEmail(userEmail);
-        Long userId = userDto.getId();
-        if(!isMatchChannelByUserId(userId, channelId)){
+    public void deletePost(UserResponseDto userDto, Long channelId, Long postId) {
+        if(!isMatchChannelByUserId(userDto.getId(), channelId)){
             throw new UnsuitableUserException("본인의 채널이 아닙니다. \n 본인의 채널에서만 작성한 포스트를 삭제할 수 있습니다.");
         }
         postMapper.deletePost(postId);

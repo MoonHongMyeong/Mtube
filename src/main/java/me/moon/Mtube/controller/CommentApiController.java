@@ -3,6 +3,7 @@ package me.moon.Mtube.controller;
 import lombok.RequiredArgsConstructor;
 import me.moon.Mtube.dto.comment.CommentResponseDto;
 import me.moon.Mtube.dto.comment.CommentSaveRequestDto;
+import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.service.CommentService;
 import me.moon.Mtube.service.SessionLoginUser;
 import me.moon.Mtube.util.Message;
@@ -28,29 +29,29 @@ public class CommentApiController {
     //댓글 등록
     @PostMapping
     public ResponseEntity addComment(@PathVariable("postId") Long postId, @RequestBody CommentSaveRequestDto saveRequestDto){
-        String userEmail = sessionLoginUser.getCurrentUser();
-        commentService.addComment(userEmail ,postId, saveRequestDto);
+        UserResponseDto userDto = sessionLoginUser.getCurrentUser();
+        commentService.addComment(userDto ,postId, saveRequestDto);
         return new ResponseEntity(new Message("comment add success!"), HttpStatus.CREATED);
     }
     //대댓글 등록
     @PostMapping("/{commentId}")
     public ResponseEntity addReplies(@PathVariable("commentId") Long parent, @PathVariable("postId") Long postId, @RequestBody CommentSaveRequestDto saveRequestDto){
-        String userEmail = sessionLoginUser.getCurrentUser();
-        commentService.addReplies(userEmail, parent, postId, saveRequestDto);
+        UserResponseDto userDto = sessionLoginUser.getCurrentUser();
+        commentService.addReplies(userDto, parent, postId, saveRequestDto);
         return new ResponseEntity(new Message("comment add success!"), HttpStatus.CREATED);
     }
     //댓글 수정
     @PutMapping("/{commentId}")
     public ResponseEntity updateComment(@PathVariable("commentId") Long commentId, @RequestParam("content") String content){
-        String userEmail = sessionLoginUser.getCurrentUser();
-        commentService.updateComment(userEmail, commentId, content);
+        UserResponseDto userDto = sessionLoginUser.getCurrentUser();
+        commentService.updateComment(userDto, commentId, content);
         return new ResponseEntity(new Message("comment update success!"), HttpStatus.OK);
     }
     //댓글 삭제
     @DeleteMapping("/{commentId}")
     public ResponseEntity deleteComment(@PathVariable("commentId") Long commentId){
-        String userEmail = sessionLoginUser.getCurrentUser();
-        commentService.deleteComment(userEmail, commentId);
+        UserResponseDto userDto = sessionLoginUser.getCurrentUser();
+        commentService.deleteComment(userDto, commentId);
         return new ResponseEntity(new Message("comment delete success!"), HttpStatus.OK);
     }
 }

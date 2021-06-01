@@ -1,6 +1,7 @@
 package me.moon.Mtube.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.service.SessionLoginUser;
 import me.moon.Mtube.service.SubscribeService;
 import me.moon.Mtube.util.Message;
@@ -20,15 +21,15 @@ public class SubscribeApiController {
 
     @PostMapping("/api/v1/channel/{channelId}/subscribe")
     public ResponseEntity subscribe(@RequestParam("channel_id") Long channelId){
-        String userEmail = loginUser.getCurrentUser();
-        subscribeService.subscribe(userEmail, channelId);
+        UserResponseDto userDto = loginUser.getCurrentUser();
+        subscribeService.subscribe(userDto, channelId);
         return new ResponseEntity(new Message("subscribe success!"), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/api/v1/channel/{channelId}/subscribe")
     public ResponseEntity cancelSubscribe(@RequestParam("channel_id") Long channelId){
-        String userEmail = loginUser.getCurrentUser();
-        subscribeService.cancelSubscribe(userEmail, channelId);
+        UserResponseDto userDto = loginUser.getCurrentUser();
+        subscribeService.cancelSubscribe(userDto, channelId);
         return new ResponseEntity(new Message("cancel subscription success!"), HttpStatus.OK);
     }
 }
