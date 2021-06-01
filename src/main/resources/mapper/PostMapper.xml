@@ -31,17 +31,17 @@
         FROM VIDEO_POST v, CHANNEL c, CHANNEL_PLAYLIST p WHERE v.channel_id=c.id AND p.channel_id=c.id
     </select>
 
-    <insert id="addPost" parameterMap="me.moon.Mtube.dto.post.PostSaveRequestDto">
+    <insert id="addPost">
         INSERT INTO VIDEO_POST(channel_id, category, playlist, title, video_file, content, view_count, permit_comment, isRemoved, temp, created_date, modified_date)
         VALUES(#{channelId}, #{category}, #{playlist}, #{title}, #{video_file}, #{content}, 0, #{permit_comment}, "NONE", "NONE", NOW(), NOW()
     </insert>
 
-    <insert id="addTempPost" parameterMap="me.moon.Mtube.dto.post.PostSaveRequestDto">
+    <insert id="addTempPost">
         INSERT INTO VIDEO_POST(channel_id, category, playlist, title, video_file, content, view_count, permit_comment, isRemoved, temp, created_date, modified_date)
         VALUES(#{channelId}, #{category}, #{playlist}, #{title}, #{video_file}, #{content}, 0, #{permit_comment}, "NONE", "TEMP", NOW(), NOW()
     </insert>
 
-    <update id="updatePost" parameterMap="me.moon.Mtube.dto.post.PostUpdateRequestDto">
+    <update id="updatePost">
         UPDATE VIDEO_POST SET category=#{category}, playlist=#{playlist}, title=#{title}, video_file=#{videoFile}, content=#{content}
         WHERE id=#{id}
     </update>

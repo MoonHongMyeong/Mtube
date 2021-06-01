@@ -9,7 +9,7 @@
         (SELECT email FROM USER WHERE email = #{email})
     </select>
 
-    <select id="getUser" resultMap="me.moon.Mtube.dto.user.UserResponseDto">
+    <select id="getUser">
         SELECT id, email, name, picture FROM USER WHERE id=#{userId}
     </select>
 
@@ -18,7 +18,7 @@
         (SELECT id FROM USER WHERE id=#{id})
     </select>
 
-    <insert id="insertUser" parameterType="me.moon.Mtube.dto.user.UserSaveRequestDto">
+    <insert id="insertUser">
         INSERT INTO USER(email, password, name, picture, role, isRemoved, created_date, modified_date)
         VALUES(#{email}, #{password}, #{name}, #{picture}, "USER", "NONE", NOW(), NOW())
     </insert>
