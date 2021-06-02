@@ -2,23 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.moon.Mtube.mapper.PostMapper">
-    <select id="getPostList">
+    <select id="getPostList" resultType="me.moon.Mtube.dto.post.PostResponseDto">
         SELECT * FROM VIDEO_POST WHERE isRemoved="NONE"
     </select>
 
-    <select id="getMainExplorePostList">
+    <select id="getMainExplorePostList" resultType="me.moon.Mtube.dto.post.PostResponseDto">
         SELECT * FROM VIDEO_POST WHERE isRemoved="NONE" ORDER BY FIELD(view_count) DESC, created_date DESC
     </select>
 
-    <select id="getExplorePostList">
+    <select id="getExplorePostList" resultType="me.moon.Mtube.dto.post.PostResponseDto">
         SELECT * FROM VIDEO_POST WHERE isRemoved="NONE" AND category=#{category} ORDER BY FIELD(view_count) DESC, created_date DESC
     </select>
 
-    <select id="getUserSubscribePostList">
+    <select id="getUserSubscribePostList" resultType="me.moon.Mtube.dto.post.PostResponseDto">
         SELECT * FROM VIDEO_POST v, SUBSCRIBE s WHERE v.channel_id=s.channel_id AND s.user_id=#{userId} AND v.isRemoved="NONE" ORDER BY created_date DESC
     </select>
 
-    <select id="getChannelPostList">
+    <select id="getChannelPostList" resultType="me.moon.Mtube.dto.post.PostResponseDto">
         SELECT * FROM VIDEO_POST WHERE isRemoved="NONE" AND channel_id=#{channelId}
     </select>
 

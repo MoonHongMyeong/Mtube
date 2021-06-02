@@ -9,7 +9,7 @@
         (SELECT email FROM USER WHERE email = #{email})
     </select>
 
-    <select id="getUser">
+    <select id="getUser" resultType="me.moon.Mtube.dto.user.UserResponseDto">
         SELECT id, email, name, picture FROM USER WHERE id=#{userId}
     </select>
 
@@ -85,12 +85,12 @@
         WHERE user_id=#{userId}
     </select>
 
-    <select id="getPlaylistInPostId">
+    <select id="getPlaylistInPostId" resultType="me.moon.Mtube.dto.playlist.UserPlaylistResponseDto">
         SELECT video_post_id FROM USER_PLAYLIST
         WHERE user_id=#{userId} AND user_playlist_name_id=#{playlistId}
     </select>
 
-    <select id="getPlaylist">
+    <select id="getPlaylist" resultType="me.moon.Mtube.dto.playlist.UserPlaylistResponseDto">
         SELECT p.title AS title, n.name AS playlistName FROM VIDEO_POST p, USER_PLAYLIST_NAME n, USER_PLAYLIST l
         WHERE p.id=l.video_post_id AND n.id=l.user_playlist_name_id AND n.id=#{playlistId} AND n.user_id=#{userId}
     </select>
