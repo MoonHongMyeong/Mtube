@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.moon.Mtube.mapper.StudioMapper">
-    <select id="getStudioComment">
+    <select id="getStudioComment" resultType="me.moon.Mtube.dto.comment.CommentResponseDto">
         SELECT c.id, c.content, c.user_id, c.like_count, c.dislike_count, c.heart, c.parent, c.modified_date
         FROM COMMENT c, VIDEO_POST v
         WHERE v.channel_id=#{channelId} AND c.video_post_id=v.id
@@ -13,7 +13,7 @@
         WHERE id=#{commentId}
     </update>
 
-    <select id="getTotalView">
+    <select id="getTotalView" resultType="int">
         SELECT SUM(view_count) FROM VIDEO_POST WHERE channel_id=#{channelId}
     </select>
 

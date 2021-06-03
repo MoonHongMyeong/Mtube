@@ -13,12 +13,12 @@
         FROM CHANNEL WHERE id=#{id} AND isBanned="NONE"
     </select>
 
-    <insert id="addChannel" parameterType="me.moon.Mtube.dto.channel.ChannelSaveRequestDto">
+    <insert id="addChannel">
         INSERT INTO CHANNEL(name, description, user_id, subscribe_count, isBanned, created_date, modified_date)
         VALUES(#{name}, #{description}, #{user_id}, 0, "NONE", NOW(), NOW())
     </insert>
 
-    <update id="updateChannel" parameterType="me.moon.Mtube.dto.channel.ChannelUpdateRequestDto">
+    <update id="updateChannel">
         UPDATE CHANNEL SET description=#{description}, modified_date=NOW()
         WHERE id=#{id}
     </update>
@@ -27,7 +27,7 @@
         DELETE FROM CHANNEL WHERE id=#{id}
     </delete>
 
-    <insert id="addChannelPlaylist" parameterType="me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto">
+    <insert id="addChannelPlaylist">
         INSERT INTO CHANNEL_PLAYLIST_NAME(channel_id, name, created_date, modified_date)
         VALUES(#{channelId},#{name},NOW(),NOW())
     </insert>
@@ -36,7 +36,7 @@
         SELECT id FROM CHANNEL WHERE name=#{name}
     </select>
 
-    <update id="updateChannelPlaylist" parameterType="me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto">
+    <update id="updateChannelPlaylist">
         UPDATE CHANNEL_PLAYLIST_NAME SET name=#{name}, modified_date=NOW()
         WHERE id=#{id}
     </update>

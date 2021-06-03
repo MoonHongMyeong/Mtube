@@ -75,7 +75,7 @@
 
     <!--    -->
 
-    <select id="getUserLikeList">
+    <select id="getUserLikeList" resultType="me.moon.Mtube.dto.like.UserLikePostResponseDto">
         SELECT v.title AS title, c.name AS channelName FROM VIDEO_POST v, CHANNEL c LIKE_VIDEO l
         WHERE v.id=l.video_post_id AND c.id=v.channel_id AND l.user_id=#{userId} AND l.kind="LIKE"
     </select>

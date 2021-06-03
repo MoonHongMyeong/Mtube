@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.moon.Mtube.mapper.CommentMapper">
-    <select id="getCommentList">
+    <select id="getCommentList" resultType="me.moon.Mtube.dto.comment.CommentResponseDto">
         SELECT * FROM COMMENT WHERE video_post_id=#{postId} AND isRemoved="NONE"
     </select>
 
@@ -10,7 +10,7 @@
         SELECT * FROM COMMENT WHERE id=#{commentId}
     </select>
 
-    <insert id="addComment" parameterType="me.moon.Mtube.dto.comment.CommentSaveRequestDto">
+    <insert id="addComment">
         INSERT INTO COMMENT(content,user_id, like_count, dislike_count, heart, parent, isRemoved, created_date, modified_date, video_post_id)
         VALUES (#{content}, #{userId}, 0, 0, "NONE", #{parent}, "NONE", NOW(), NOW(), #{video_post_id})
     </insert>
@@ -25,7 +25,7 @@
         WHERE id=#{commentId}
     </update>
 
-    <select id="videoOwnerGetCommentList">
+    <select id="videoOwnerGetCommentList" resultType="me.moon.Mtube.dto.comment.CommentResponseDto">
         SELECT c.user_id, c.content, c.like_count, c.dislike_count, c.heart, c. parent, c.video_post_id, c.modified_date
         FROM COMMENT c,VIDEO_POST v WHERE v.id = c.video_post_id AND v.channel_id = #{channelId}
     </select>
