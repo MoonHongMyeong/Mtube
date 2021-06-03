@@ -17,7 +17,7 @@ import java.util.List;
     스튜디오 기능
  */
 
-@RequestMapping("/api/v1/channel/{channelId}")
+@RequestMapping("/api/v1/studio/{channelId}")
 @RequiredArgsConstructor
 @RestController
 public class StudioApiController {

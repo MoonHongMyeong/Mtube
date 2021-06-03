@@ -48,7 +48,7 @@ public class UserService {
 
     @Transactional
     public void updateUser(Long userId, UserUpdateRequestDto updateRequestDto) {
-        if (toExistUserById(userId)) {
+        if (!toExistUserById(userId)) {
             throw new IllegalArgumentException("해당 계정이 존재하지 않습니다.");
         }
         userMapper.updateUser(userId, updateRequestDto.getName(), updateRequestDto.getPicture());

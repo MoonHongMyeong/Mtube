@@ -1,5 +1,6 @@
 package me.moon.Mtube.dto.user;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,4 +9,11 @@ import lombok.NoArgsConstructor;
 public class UserUpdateRequestDto {
     private String name;
     private String picture;
+
+    @Builder
+    public UserUpdateRequestDto(String name, String picture){
+        this.name=name;
+        this.picture=picture;
+    }
+
 }
