@@ -42,11 +42,12 @@ public class UserApiController {
 
     @PutMapping("/{userId}/password")
     public ResponseEntity changePassword(@PathVariable("userId") Long userId, @RequestBody UserChangePasswordDto changePasswordDto){
-        userService.changePassword(userId, changePasswordDto);
+        UserResponseDto userDto = loginService.getCurrentUser();
+        userService.changePassword(userDto, changePasswordDto);
         return new ResponseEntity(new Message("change password success!"), HttpStatus.OK);
     }
 
-    @DeleteMapping("/userId")
+    @DeleteMapping("/{userId}")
     public ResponseEntity withdrawal(@PathVariable("userId") Long userId){
         userService.deleteUser(userId);
         return new ResponseEntity(new Message("withdrawal success!"), HttpStatus.OK);

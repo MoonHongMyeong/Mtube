@@ -35,11 +35,11 @@
 
     <update id="changePassword">
         UPDATE USER SET password=#{newPassword}
-        WHERE id=#{id}
+        WHERE id=#{userId}
     </update>
 
     <delete id="deleteUser">
-        DELETE FROM USER WHERE id=#{id}
+        DELETE FROM USER WHERE id=#{userId}
     </delete>
 
     <select id="findUserByEmail" resultType="me.moon.Mtube.dto.user.LoginUserDto">
