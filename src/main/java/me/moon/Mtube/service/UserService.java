@@ -59,20 +59,20 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(Long userId, UserChangePasswordDto changePasswordDto) {
-        if (!validateUser(userId, changePasswordDto)) {
+    public void changePassword(UserResponseDto userDto, UserChangePasswordDto changePasswordDto) {
+        if(userDto.getEmail()==null){
+            throw new IllegalArgumentException("로그인이 필요한 서비스 입니다.");
+        }
+        LoginUserDto loginUserDto = userMapper.findUserByEmail(userDto.getEmail());
+        if (!PasswordEncryptor.isMatch(changePasswordDto.getPassword(), loginUserDto.getPassword())) {
             throw new IllegalArgumentException("비밀번호를 잘못 입력했습니다. \n 다시 입력해주세요.");
         }
-        userMapper.changePassword(userId, changePasswordDto.getNewPassword());
+        userMapper.changePassword(loginUserDto.getId(), encryptUser(changePasswordDto.getNewPassword()));
     }
 
-    private boolean validateUser(Long userId, UserChangePasswordDto changePasswordDto) {
-        String encryptPassword = encryptUser(changePasswordDto.getPassword());
-        return userMapper.validateUser(userId, encryptPassword);
-    }
-
+    @Transactional
     public void deleteUser(Long userId) {
-        if (toExistUserById(userId)) {
+        if (!toExistUserById(userId)) {
             throw new IllegalArgumentException("해당 계정이 존재하지 않습니다.");
         }
         userMapper.deleteUser(userId);
