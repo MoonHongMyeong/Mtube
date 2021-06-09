@@ -71,7 +71,10 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(Long userId) {
+    public void deleteUser(UserResponseDto userDto, Long userId) {
+        if(userDto.getId() != userId){
+            throw new UnsuitableUserException("로그인한 자신의 계정만 탈퇴가 가능합니다.");
+        }
         if (!toExistUserById(userId)) {
             throw new IllegalArgumentException("해당 계정이 존재하지 않습니다.");
         }

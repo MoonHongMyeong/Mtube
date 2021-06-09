@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,6 +53,19 @@ public class ChannelApiControllerTest {
                 .andExpect(status().isCreated());
     }
 
+    @AfterAll
+    public void clean() throws Exception {
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        String url = "http://localhost:"+port+"/api/v1/user/"+userDto.getId();
+
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("USER", new UserResponseDto(userDto));
+
+        mvc.perform(delete(url).session(session))
+                .andExpect(status().isOk());
+
+
+    }
 
     @Test
     @DisplayName("채널 등록에 성공한다")
