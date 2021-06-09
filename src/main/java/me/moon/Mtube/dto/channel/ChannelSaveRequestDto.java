@@ -1,5 +1,6 @@
 package me.moon.Mtube.dto.channel;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,5 +13,11 @@ public class ChannelSaveRequestDto {
 
     public void setUser(Long user_id){
         this.user_id=user_id;
+    }
+
+    @Builder
+    public ChannelSaveRequestDto(String name, String description){
+        this.name=name;
+        this.description=description;
     }
 }

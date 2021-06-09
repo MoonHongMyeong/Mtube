@@ -49,7 +49,8 @@ public class UserApiController {
 
     @DeleteMapping("/{userId}")
     public ResponseEntity withdrawal(@PathVariable("userId") Long userId){
-        userService.deleteUser(userId);
+        UserResponseDto userDto = loginService.getCurrentUser();
+        userService.deleteUser(userDto,userId);
         return new ResponseEntity(new Message("withdrawal success!"), HttpStatus.OK);
     }
 

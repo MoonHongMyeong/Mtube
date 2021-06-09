@@ -106,9 +106,12 @@ public class UserApiControllerTest {
     public void withdrawal() throws Exception {
         LoginUserDto loginUserDto = userMapper.findUserByEmail("test@test.com");
 
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("USER", new UserResponseDto(loginUserDto));
         String url = "http://localhost:"+port+"/api/v1/user/"+loginUserDto.getId();
 
         mvc.perform(delete(url)
+                .session(session)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
