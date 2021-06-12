@@ -142,4 +142,8 @@ public class UserService {
     public List<UserLikePostResponseDto> getUserLikeList(Long userId) {
         return userMapper.getUserLikeList(userId);
     }
+
+    public List<UserPlaylistResponseDto> getUserPlaylist(Long userId) {
+        return userMapper.getUserPlaylists(userId);
+    }
 }

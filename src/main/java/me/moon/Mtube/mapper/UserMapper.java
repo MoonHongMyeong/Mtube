@@ -45,6 +45,8 @@ public interface UserMapper {
 
     List<Long> getUserPlaylist(Long userId);
 
+    List<UserPlaylistResponseDto> getUserPlaylists(Long userId);
+
     List<PostResponseDto> getPlaylistInPostId(Long userId, Long playlistId);
 
     List<UserPlaylistResponseDto> getPlaylist(Long userId, Long playlistId);

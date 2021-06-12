@@ -82,6 +82,12 @@ public class UserApiController {
     public List<UserPlaylistResponseDto> getPlaylist(@PathVariable("userId")Long userId, @PathVariable("playlistId") Long playlistId){
         return userService.getPlaylist(userId, playlistId);
     }
+
+    @GetMapping("/{userId}/playlist}")
+    public List<UserPlaylistResponseDto> getUserPlaylist(@PathVariable("userId") Long userId){
+        return userService.getUserPlaylist(userId);
+    }
+
     //리스트 등록
     @PostMapping("/{userId}/playlist")
     public ResponseEntity addUserPlaylist(@PathVariable("userId")Long userId, @RequestParam("name") String name){
