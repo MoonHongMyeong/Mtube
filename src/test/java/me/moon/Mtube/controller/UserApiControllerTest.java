@@ -1,6 +1,7 @@
 package me.moon.Mtube.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.moon.Mtube.dto.playlist.UserPlaylistResponseDto;
 import me.moon.Mtube.dto.user.*;
 import me.moon.Mtube.mapper.UserMapper;
 import org.junit.jupiter.api.*;
@@ -13,6 +14,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -102,13 +105,26 @@ public class UserApiControllerTest {
 
     @Test
     @Order(4)
+    @DisplayName("회원가입시 기본으로 '나중에 볼 영상' 리스트가 생성된다.")
+    public void basicUserPlaylist(){
+        LoginUserDto loginUserDto = userMapper.findUserByEmail("test@test.com");
+        List<UserPlaylistResponseDto> usersPlaylist=userMapper.getUserPlaylistList(loginUserDto.getId());
+
+        assertThat(usersPlaylist.get(0).getName().equals("나중에 볼 동영상"));
+    }
+
+    @Test
+    @Order(5)
     @DisplayName("회원탈퇴에 성공한다.")
     public void withdrawal() throws Exception {
         LoginUserDto loginUserDto = userMapper.findUserByEmail("test@test.com");
 
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("USER", new UserResponseDto(loginUserDto));
         String url = "http://localhost:"+port+"/api/v1/user/"+loginUserDto.getId();
 
         mvc.perform(delete(url)
+                .session(session)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

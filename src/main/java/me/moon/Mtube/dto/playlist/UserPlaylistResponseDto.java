@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UserPlaylistResponseDto {
+    private Long id;
     private String name;
     private String playlistName;
 }

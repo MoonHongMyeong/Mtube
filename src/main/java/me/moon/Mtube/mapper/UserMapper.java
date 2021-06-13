@@ -43,6 +43,8 @@ public interface UserMapper {
 
     String getPlaylistName(Long playlistId);
 
+    List<UserPlaylistResponseDto> getUserPlaylistList(Long userId);
+
     List<Long> getUserPlaylist(Long userId);
 
     List<PostResponseDto> getPlaylistInPostId(Long userId, Long playlistId);
