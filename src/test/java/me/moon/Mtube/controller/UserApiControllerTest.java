@@ -115,6 +115,21 @@ public class UserApiControllerTest {
 
     @Test
     @Order(5)
+    @DisplayName("유저의 플레이리스트를 생성한다.")
+    public void addUserPlaylist() throws Exception {
+        LoginUserDto loginUserDto = userMapper.findUserByEmail("test@test.com");
+
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("USER", new UserResponseDto(loginUserDto));
+        String url = "http://localhost:"+port+"/api/v1/user/"+loginUserDto.getId()+"/playlist";
+
+        mvc.perform(post(url)
+                .session(session)
+                .param("name", "testPlaylist"))
+                .andExpect(status().isCreated());
+    }
+    @Test
+    @Order(6)
     @DisplayName("회원탈퇴에 성공한다.")
     public void withdrawal() throws Exception {
         LoginUserDto loginUserDto = userMapper.findUserByEmail("test@test.com");
