@@ -6,6 +6,7 @@ import me.moon.Mtube.dto.user.*;
 import me.moon.Mtube.mapper.UserMapper;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -128,8 +129,28 @@ public class UserApiControllerTest {
                 .param("name", "testPlaylist"))
                 .andExpect(status().isCreated());
     }
+
     @Test
     @Order(6)
+    @DisplayName("유저의 리스트 이름 수정")
+    public void updateUserPlaylistName() throws Exception {
+        LoginUserDto loginUserDto = userMapper.findUserByEmail("test@test.com");
+
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("USER", new UserResponseDto(loginUserDto));
+        List<UserPlaylistResponseDto> playlists = userMapper.getUserPlaylistList(loginUserDto.getId());
+
+        String url = "http://localhost:"+port+"/api/v1/user/"+loginUserDto.getId()+"/playlist/"+playlists.get(1).getId();
+        mvc.perform(put(url)
+                .session(session)
+                .param("name", "expectPlaylist"))
+                .andExpect(status().isOk());
+
+        List<UserPlaylistResponseDto> userPlaylists = userMapper.getPlaylist(loginUserDto.getId(), playlists.get(1).getId());
+    }
+
+    @Test
+    @Order(7)
     @DisplayName("회원탈퇴에 성공한다.")
     public void withdrawal() throws Exception {
         LoginUserDto loginUserDto = userMapper.findUserByEmail("test@test.com");
