@@ -1,10 +1,12 @@
 package me.moon.Mtube.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.moon.Mtube.dto.playlist.UserPlaylistResponseDto;
 import me.moon.Mtube.dto.user.*;
 import me.moon.Mtube.mapper.UserMapper;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,6 +15,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -102,6 +106,51 @@ public class UserApiControllerTest {
 
     @Test
     @Order(4)
+    @DisplayName("회원가입시 기본으로 '나중에 볼 영상' 리스트가 생성된다.")
+    public void basicUserPlaylist(){
+        LoginUserDto loginUserDto = userMapper.findUserByEmail("test@test.com");
+        List<UserPlaylistResponseDto> usersPlaylist=userMapper.getUserPlaylistList(loginUserDto.getId());
+
+        assertThat(usersPlaylist.get(0).getName().equals("나중에 볼 동영상"));
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("유저의 플레이리스트를 생성한다.")
+    public void addUserPlaylist() throws Exception {
+        LoginUserDto loginUserDto = userMapper.findUserByEmail("test@test.com");
+
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("USER", new UserResponseDto(loginUserDto));
+        String url = "http://localhost:"+port+"/api/v1/user/"+loginUserDto.getId()+"/playlist";
+
+        mvc.perform(post(url)
+                .session(session)
+                .param("name", "testPlaylist"))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("유저의 리스트 이름 수정")
+    public void updateUserPlaylistName() throws Exception {
+        LoginUserDto loginUserDto = userMapper.findUserByEmail("test@test.com");
+
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("USER", new UserResponseDto(loginUserDto));
+        List<UserPlaylistResponseDto> playlists = userMapper.getUserPlaylistList(loginUserDto.getId());
+
+        String url = "http://localhost:"+port+"/api/v1/user/"+loginUserDto.getId()+"/playlist/"+playlists.get(1).getId();
+        mvc.perform(put(url)
+                .session(session)
+                .param("name", "expectPlaylist"))
+                .andExpect(status().isOk());
+
+        List<UserPlaylistResponseDto> userPlaylists = userMapper.getPlaylist(loginUserDto.getId(), playlists.get(1).getId());
+    }
+
+    @Test
+    @Order(7)
     @DisplayName("회원탈퇴에 성공한다.")
     public void withdrawal() throws Exception {
         LoginUserDto loginUserDto = userMapper.findUserByEmail("test@test.com");

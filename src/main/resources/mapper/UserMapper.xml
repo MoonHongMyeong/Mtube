@@ -53,6 +53,11 @@
         WHERE user_id=#{userId}
     </select>
 
+    <select id="getUserPlaylistList" resultType="me.moon.Mtube.dto.playlist.UserPlaylistResponseDto">
+        SELECT * FROM USER_PLAYLIST_NAME
+        WHERE user_id = #{userId}
+    </select>
+
     <insert id="addUserPlaylist">
         INSERT INTO USER_PLAYLIST_NAME(name, user_id, created_date, modified_date)
         VALUES(#{name}, #{userId}, NOW(), NOW())
