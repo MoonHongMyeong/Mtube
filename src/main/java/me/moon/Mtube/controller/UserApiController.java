@@ -49,7 +49,8 @@ public class UserApiController {
 
     @DeleteMapping("/{userId}")
     public ResponseEntity withdrawal(@PathVariable("userId") Long userId){
-        userService.deleteUser(userId);
+        UserResponseDto userDto = loginService.getCurrentUser();
+        userService.deleteUser(userDto,userId);
         return new ResponseEntity(new Message("withdrawal success!"), HttpStatus.OK);
     }
 
@@ -81,6 +82,12 @@ public class UserApiController {
     public List<UserPlaylistResponseDto> getPlaylist(@PathVariable("userId")Long userId, @PathVariable("playlistId") Long playlistId){
         return userService.getPlaylist(userId, playlistId);
     }
+
+    @GetMapping("/{userId}/playlist}")
+    public List<UserPlaylistResponseDto> getUserPlaylist(@PathVariable("userId") Long userId){
+        return userService.getUserPlaylist(userId);
+    }
+
     //리스트 등록
     @PostMapping("/{userId}/playlist")
     public ResponseEntity addUserPlaylist(@PathVariable("userId")Long userId, @RequestParam("name") String name){
