@@ -8,8 +8,10 @@ import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.dto.user.UserSaveRequestDto;
 import me.moon.Mtube.mapper.ChannelMapper;
 import me.moon.Mtube.mapper.UserMapper;
+import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.internal.matchers.Null;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,7 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -119,6 +121,22 @@ public class ChannelApiControllerTest {
         assertThat(channelMapper
                 .getChannel(channelId).getDescription()
                 .equals("expectedDescription"));
+    }
 
+    @Test
+    @DisplayName("채널 삭제가 성공한다.")
+    public void deleteChannel() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("USER", new UserResponseDto(userDto));
+
+        Long channelId=channelMapper.getChannelIdByChannelName("testChannelName");
+
+        String url = "http://localhost:"+port+"/api/v1/channel/"+channelId;
+
+        mvc.perform(delete(url).session(session)).andExpect(status().isOk());
+        assertThatExceptionOfType(NullPointerException.class)
+                .isThrownBy((ThrowableAssert.ThrowingCallable) channelMapper.getChannel(channelId));
     }
 }
