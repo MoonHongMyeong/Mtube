@@ -1,8 +1,10 @@
 package me.moon.Mtube.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.moon.Mtube.dto.channel.ChannelResponseDto;
 import me.moon.Mtube.dto.channel.ChannelSaveRequestDto;
 import me.moon.Mtube.dto.channel.ChannelUpdateRequestDto;
+import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
 import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.dto.user.UserSaveRequestDto;
@@ -138,5 +140,23 @@ public class ChannelApiControllerTest {
         mvc.perform(delete(url).session(session)).andExpect(status().isOk());
         assertThatExceptionOfType(NullPointerException.class)
                 .isThrownBy((ThrowableAssert.ThrowingCallable) channelMapper.getChannel(channelId));
+    }
+
+    @Test
+    @DisplayName("채널의 플레이리스트 생성")
+    public void addChannelPlaylist() throws Exception{
+        Long channelId = channelMapper.getChannelIdByChannelName("testChannelName");
+
+        String url = "http://localhost:"+port+"/api/v1/channel/"+channelId+"/playlist";
+
+        ChannelPlaylistSaveRequestDto saveRequestDto = ChannelPlaylistSaveRequestDto.builder()
+                .channelId(channelId)
+                .name("testChannelPlaylist")
+                .build();
+
+        mvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(saveRequestDto)))
+                .andExpect(status().isCreated());
     }
 }
