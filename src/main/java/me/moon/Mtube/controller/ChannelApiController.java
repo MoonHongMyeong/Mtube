@@ -58,7 +58,7 @@ public class ChannelApiController {
     }
     //채널 플레이리스트 조회
     @GetMapping("/{channelId}/playlist")
-    public ChannelPlaylistResponseDto getChannelPlaylist(@PathVariable("channelId") Long channelId){
+    public List<ChannelPlaylistResponseDto> getChannelPlaylist(@PathVariable("channelId") Long channelId){
         return channelService.getChannelPlaylist(channelId);
     }
     //채널 플레이리스트 생성

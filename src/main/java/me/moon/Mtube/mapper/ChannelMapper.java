@@ -7,6 +7,8 @@ import me.moon.Mtube.dto.playlist.ChannelPlaylistResponseDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
 
+import java.util.List;
+
 public interface ChannelMapper {
     ChannelResponseDto getChannel(Long id);
 
@@ -28,5 +30,5 @@ public interface ChannelMapper {
 
     boolean isMatchChannelByUserId(Long userId, Long channelId);
 
-    ChannelPlaylistResponseDto getChannelPlaylist(Long channelId);
+    List<ChannelPlaylistResponseDto> getChannelPlaylist(Long channelId);
 }

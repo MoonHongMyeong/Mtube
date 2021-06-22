@@ -70,7 +70,7 @@ public class ChannelService {
     /*
     채널 플레이리스트
     */
-    public ChannelPlaylistResponseDto getChannelPlaylist(Long channelId) {
+    public List<ChannelPlaylistResponseDto> getChannelPlaylist(Long channelId) {
         return channelMapper.getChannelPlaylist(channelId);
     }
     public void addChannelPlaylist(Long channelId, ChannelPlaylistSaveRequestDto saveRequestDto) {
