@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import me.moon.Mtube.dto.channel.ChannelResponseDto;
 import me.moon.Mtube.dto.channel.ChannelSaveRequestDto;
 import me.moon.Mtube.dto.channel.ChannelUpdateRequestDto;
+import me.moon.Mtube.dto.playlist.ChannelPlaylistResponseDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
+import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
 import me.moon.Mtube.dto.user.UserResponseDto;
 import me.moon.Mtube.dto.user.UserSaveRequestDto;
@@ -22,6 +24,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -158,5 +162,24 @@ public class ChannelApiControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(saveRequestDto)))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    @DisplayName("채널의 플레이리스트 이름 수정")
+    public void updateChannelPlaylist() throws Exception{
+        Long channelId = channelMapper.getChannelIdByChannelName("testChannelName");
+        List<ChannelPlaylistResponseDto> playlist = channelMapper.getChannelPlaylist(channelId);
+
+        String url = "http://localhost:"+port+"/api/v1/channel/"+channelId+"/playlist/"+playlist.get(1).getId();
+
+        ChannelPlaylistUpdateRequestDto requestDto = ChannelPlaylistUpdateRequestDto.builder()
+                .id(playlist.get(1).getId())
+                .name("ExpectedPlaylistName")
+                .build();
+
+        mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(requestDto))).andExpect(status().isOk());
+
     }
 }
