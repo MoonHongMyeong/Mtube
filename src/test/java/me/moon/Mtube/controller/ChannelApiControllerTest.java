@@ -182,4 +182,17 @@ public class ChannelApiControllerTest {
                 .content(new ObjectMapper().writeValueAsString(requestDto))).andExpect(status().isOk());
 
     }
+
+    @Test
+    @DisplayName("채널의 플레이리스트 삭제")
+    public void deleteChannelPlaylist() throws Exception{
+        Long channelId = channelMapper.getChannelIdByChannelName("testChannelName");
+        List<ChannelPlaylistResponseDto> playlist = channelMapper.getChannelPlaylist(channelId);
+
+        String url = "http://localhost:"+port+"/api/v1/channel/"+channelId+"/playlist/"+playlist.get(1).getId();
+
+
+        mvc.perform(delete(url)).andExpect(status().isOk());
+
+    }
 }
