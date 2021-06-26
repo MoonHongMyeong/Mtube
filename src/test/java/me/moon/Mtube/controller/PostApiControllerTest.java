@@ -67,4 +67,32 @@ public class PostApiControllerTest {
         .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(requestDto)))
                 .andExpect(status().isCreated());
     }
+
+    @Test
+    @DisplayName("임시 포스트 등록에 성공한다.")
+    public void addTempPost() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        MockHttpSession session = new MockHttpSession();
+        Long channelId=channelMapper.getChannelIdByChannelName("testChannelName");
+        List<ChannelPlaylistResponseDto> channelsPlaylist = channelMapper.getChannelPlaylist(channelId);
+
+        session.setAttribute("USER", userDto);
+
+        String url = "http://localhost:"+port+"/api/v1/channel/"+channelId+"/video/temp";
+
+        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
+                .channelId(channelId)
+                .content("testVideo")
+                .category("일반")
+                .permitComment("Y")
+                .temp("N")
+                .title("testVideo")
+                .videoFile("testVideo")
+                .playlist(channelsPlaylist.get(0).getId())
+                .build();
+
+        mvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(requestDto)))
+                .andExpect(status().isCreated());
+    }
 }
