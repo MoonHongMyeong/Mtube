@@ -3,6 +3,7 @@ package me.moon.Mtube.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistResponseDto;
 import me.moon.Mtube.dto.post.PostSaveRequestDto;
+import me.moon.Mtube.dto.post.PostUpdateRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
 import me.moon.Mtube.mapper.ChannelMapper;
 import me.moon.Mtube.mapper.UserMapper;
@@ -94,5 +95,26 @@ public class PostApiControllerTest {
         mvc.perform(post(url)
                 .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(requestDto)))
                 .andExpect(status().isCreated());
+    }
+    
+    @Test
+    @DisplayName("포스트 수정에 성공한다.")
+    public void updatePost() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        MockHttpSession session = new MockHttpSession();
+        Long channelId=channelMapper.getChannelIdByChannelName("testChannelName");
+        List<ChannelPlaylistResponseDto> channelsPlaylist = channelMapper.getChannelPlaylist(channelId);
+
+        session.setAttribute("USER", userDto);
+
+        String url = "http://localhost:"+port+"/api/v1/channel/"+channelId+"/video/temp";
+
+        PostUpdateRequestDto requestDto = PostUpdateRequestDto.builder()
+                .title("exceptedTitle")
+                .build();
+
+        mvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
     }
 }
