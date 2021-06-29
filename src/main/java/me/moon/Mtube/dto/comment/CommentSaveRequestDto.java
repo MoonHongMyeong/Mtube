@@ -1,5 +1,6 @@
 package me.moon.Mtube.dto.comment;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,5 +22,13 @@ public class CommentSaveRequestDto {
 
     public void setParent(Long parent) {
         this.parent=parent;
+    }
+
+    @Builder
+    public CommentSaveRequestDto(String content, Long userId, Long parent, Long video_post_id){
+        this.parent=parent;
+        this.userId=userId;
+        this.video_post_id=video_post_id;
+        this.content=content;
     }
 }
