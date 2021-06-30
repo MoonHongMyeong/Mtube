@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,6 +65,26 @@ public class CommentApiControllerTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(new ObjectMapper().writeValueAsString(saveRequestDto))).andExpect(status().isCreated());
 
+    }
+
+    @Test
+    @DisplayName("댓글 수정에 성공한다.")
+    public void updateComment() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        MockHttpSession session = new MockHttpSession();
+
+        List<PostResponseDto> postlist = postMapper.getPostList();
+
+        Long postId = postlist.get(0).getId();
+
+        session.setAttribute("USER", userDto);
+
+        String url = "http://localhost:"+port+"/api/v1/video/"+postId+"/comment";
+
+        mvc.perform(put(url)
+                .session(session)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("expectedComment")).andExpect(status().isOk());
     }
 
 }
