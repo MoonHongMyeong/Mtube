@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class CommentResponseDto {
+    private Long id;
     private String content;
     private int like_count;
     private int dislike_count;

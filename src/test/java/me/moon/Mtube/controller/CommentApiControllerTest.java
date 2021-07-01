@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import me.moon.Mtube.dto.comment.CommentSaveRequestDto;
 import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
+import me.moon.Mtube.mapper.CommentMapper;
 import me.moon.Mtube.mapper.PostMapper;
 import me.moon.Mtube.mapper.UserMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -20,8 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,6 +39,9 @@ public class CommentApiControllerTest {
 
     @Autowired
     private PostMapper postMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Test
     @DisplayName("댓글 등록에 성공한다.")
@@ -87,4 +90,24 @@ public class CommentApiControllerTest {
                 .content("expectedComment")).andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("댓글 삭제에 성공한다.")
+    public void deleteComment() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        MockHttpSession session = new MockHttpSession();
+
+        List<PostResponseDto> postlist = postMapper.getPostList();
+
+        Long postId = postlist.get(0).getId();
+
+        session.setAttribute("USER", userDto);
+
+        Long commentId = commentMapper.getCommentList(postId).get(0).getId();
+
+        String url = "http://localhost:"+port+"/api/v1/video/"+postId+"/comment/"+commentId;
+
+        mvc.perform(delete(url).session(session)).andExpect(status().isOk());
+
+
+    }
 }
