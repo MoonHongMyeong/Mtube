@@ -71,6 +71,35 @@ public class CommentApiControllerTest {
     }
 
     @Test
+    @DisplayName("대댓글 등록에 성공한다.")
+    public void addReplies() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        MockHttpSession session = new MockHttpSession();
+
+        List<PostResponseDto> postlist = postMapper.getPostList();
+
+        Long postId = postlist.get(0).getId();
+        Long commentId = commentMapper.getCommentList(postId).get(0).getId();
+
+        session.setAttribute("USER", userDto);
+
+        String url = "http://localhost:"+port+"/api/v1/video/"+postId+"/comment/"+commentId;
+
+        CommentSaveRequestDto saveRequestDto = CommentSaveRequestDto.builder()
+                .userId(userDto.getId())
+                .content("testReplies")
+                .video_post_id(postId)
+                .build();
+
+        mvc.perform(post(url)
+                .session(session)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(saveRequestDto)))
+                .andExpect(status().isCreated());
+
+    }
+
+    @Test
     @DisplayName("댓글 수정에 성공한다.")
     public void updateComment() throws Exception{
         LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
