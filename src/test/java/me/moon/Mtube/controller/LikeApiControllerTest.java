@@ -56,4 +56,22 @@ public class LikeApiControllerTest {
 
         mvc.perform(post(url).session(session)).andExpect(status().isOk());
     }
+
+    @Test
+    @DisplayName("포스트 싫어요에 성공한다")
+    public void dislikePost() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        MockHttpSession session = new MockHttpSession();
+
+        List<PostResponseDto> postlist = postMapper.getPostList();
+
+        Long postId = postlist.get(0).getId();
+
+        session.setAttribute("USER", userDto);
+
+        String url = "http://localhost:"+port+"/api/v1/video/"+postId+"/dislike";
+
+        mvc.perform(post(url).session(session)).andExpect(status().isOk());
+
+    }
 }
