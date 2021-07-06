@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,7 +55,7 @@ public class LikeApiControllerTest {
 
         String url = "http://localhost:"+port+"/api/v1/video/"+postId+"/like";
 
-        mvc.perform(post(url).session(session)).andExpect(status().isOk());
+        mvc.perform(post(url).session(session)).andExpect(status().isCreated());
     }
 
     @Test
@@ -71,7 +72,24 @@ public class LikeApiControllerTest {
 
         String url = "http://localhost:"+port+"/api/v1/video/"+postId+"/dislike";
 
-        mvc.perform(post(url).session(session)).andExpect(status().isOk());
+        mvc.perform(post(url).session(session)).andExpect(status().isCreated());
 
+    }
+
+    @Test
+    @DisplayName("포스트의 좋아요 취소에 성공한다.")
+    public void cancelLikePost() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        MockHttpSession session = new MockHttpSession();
+
+        List<PostResponseDto> postlist = postMapper.getPostList();
+
+        Long postId = postlist.get(0).getId();
+
+        session.setAttribute("USER", userDto);
+
+        String url = "http://localhost:"+port+"/api/v1/video/"+postId+"/like";
+
+        mvc.perform(delete(url).session(session)).andExpect(status().isOk());
     }
 }
