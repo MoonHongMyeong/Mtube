@@ -94,7 +94,7 @@ public class LikeApiControllerTest {
     }
 
     @Test
-    @DisplayName("포스트의 좋아요 취소에 성공한다.")
+    @DisplayName("포스트의 싫어요 취소에 성공한다.")
     public void cancelDislikePost() throws Exception{
         LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
         MockHttpSession session = new MockHttpSession();
