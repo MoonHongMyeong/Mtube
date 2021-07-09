@@ -1,5 +1,6 @@
 package me.moon.Mtube.controller;
 
+import me.moon.Mtube.dto.comment.CommentResponseDto;
 import me.moon.Mtube.dto.post.PostResponseDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
 import me.moon.Mtube.mapper.CommentMapper;
@@ -108,5 +109,24 @@ public class LikeApiControllerTest {
         String url = "http://localhost:"+port+"/api/v1/video/"+postId+"/dislike";
 
         mvc.perform(delete(url).session(session)).andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("댓글의 좋아요에 성공한다.")
+    public void likeComment() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        MockHttpSession session = new MockHttpSession();
+
+        List<PostResponseDto> postlist = postMapper.getPostList();
+        Long postId = postlist.get(0).getId();
+
+        List<CommentResponseDto> commentList = commentMapper.getCommentList(postId);
+        Long commentId = commentList.get(0).getId();
+
+        session.setAttribute("USER", userDto);
+
+        String url = "http://localhost:"+port+"/api/v1/video/"+postId+"/comment/"+commentId+"/like";
+
+        mvc.perform(post(url).session(session)).andExpect(status().isCreated());
     }
 }
