@@ -148,4 +148,23 @@ public class LikeApiControllerTest {
 
         mvc.perform(post(url).session(session)).andExpect(status().isCreated());
     }
+
+    @Test
+    @DisplayName("댓글의 좋아요 취소에 성공한다.")
+    public void cancelLikeComment() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        MockHttpSession session = new MockHttpSession();
+
+        List<PostResponseDto> postlist = postMapper.getPostList();
+        Long postId = postlist.get(0).getId();
+
+        List<CommentResponseDto> commentList = commentMapper.getCommentList(postId);
+        Long commentId = commentList.get(0).getId();
+
+        session.setAttribute("USER", userDto);
+
+        String url = "http://localhost:"+port+"/api/v1/video/"+postId+"/comment/"+commentId+"/like";
+
+        mvc.perform(delete(url).session(session)).andExpect(status().isOk());
+    }
 }
