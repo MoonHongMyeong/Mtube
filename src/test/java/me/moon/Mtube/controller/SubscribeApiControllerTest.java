@@ -17,6 +17,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,5 +53,20 @@ public class SubscribeApiControllerTest {
         String url = "localhost:"+port+"/api/v1/channel/"+channelId+"/subscribe";
 
         mvc.perform(post(url).session(session)).andExpect(status().isCreated());
+    }
+
+    @Test
+    @DisplayName("채널 구독 취소에 성공한다.")
+    public void cancelSubscribe() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        MockHttpSession session = new MockHttpSession();
+
+        Long channelId = channelMapper.getChannelIdByChannelName("testChannel");
+
+        session.setAttribute("USER", userDto);
+
+        String url = "localhost:"+port+"/api/v1/channel/"+channelId+"/subscribe";
+
+        mvc.perform(delete(url).session(session)).andExpect(status().isOk());
     }
 }
