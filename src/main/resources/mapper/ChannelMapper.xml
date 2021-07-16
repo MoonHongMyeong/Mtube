@@ -27,6 +27,10 @@
         DELETE FROM CHANNEL WHERE id=#{id}
     </delete>
 
+    <select id="getChannelPlaylist" resultType="me.moon.Mtube.dto.playlist.UserPlaylistResponseDto">
+        SELECT * FROM CHANNEL_PLAYLIST_NAME WHERE channel_id=#{channelId}
+    </select>
+
     <insert id="addChannelPlaylist">
         INSERT INTO CHANNEL_PLAYLIST_NAME(channel_id, name, created_date, modified_date)
         VALUES(#{channelId},#{name},NOW(),NOW())

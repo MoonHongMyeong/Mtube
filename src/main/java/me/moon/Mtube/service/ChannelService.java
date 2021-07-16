@@ -5,6 +5,7 @@ import me.moon.Mtube.dto.channel.ChannelResponseDto;
 import me.moon.Mtube.dto.channel.ChannelSaveRequestDto;
 import me.moon.Mtube.dto.channel.ChannelUpdateRequestDto;
 import me.moon.Mtube.dto.comment.ChannelCommentResponseDto;
+import me.moon.Mtube.dto.playlist.ChannelPlaylistResponseDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
 import me.moon.Mtube.dto.user.LoginUserDto;
@@ -69,7 +70,9 @@ public class ChannelService {
     /*
     채널 플레이리스트
     */
-
+    public List<ChannelPlaylistResponseDto> getChannelPlaylist(Long channelId) {
+        return channelMapper.getChannelPlaylist(channelId);
+    }
     public void addChannelPlaylist(Long channelId, ChannelPlaylistSaveRequestDto saveRequestDto) {
         saveRequestDto.setChannelId(channelId);
         channelMapper.addChannelPlaylist(saveRequestDto);
@@ -99,4 +102,6 @@ public class ChannelService {
     public List<ChannelCommentResponseDto> videoOwnerGetCommentList(Long channelId) {
         return commentMapper.videoOwnerGetCommentList(channelId);
     }
+
+
 }

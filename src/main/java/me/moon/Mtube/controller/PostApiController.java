@@ -66,7 +66,7 @@ public class PostApiController {
     public ResponseEntity addTempPost(@PathVariable("channelId") Long channelId ,@RequestBody PostSaveRequestDto saveRequestDto){
         UserResponseDto userDto = loginUser.getCurrentUser();
         postService.addTempPost(userDto, channelId, saveRequestDto);
-        return new ResponseEntity(new Message("temp post add success"), HttpStatus.CREATED);
+            return new ResponseEntity(new Message("temp post add success"), HttpStatus.CREATED);
     }
     //포스트 수정
     @PutMapping("/api/v1/channel/{channelId}/video/{postId}")

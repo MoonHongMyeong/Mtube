@@ -1,5 +1,6 @@
 package me.moon.Mtube.dto.channel;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,5 +12,11 @@ public class ChannelUpdateRequestDto {
 
     public void setId(Long id){
         this.id=id;
+    }
+
+    @Builder
+    public ChannelUpdateRequestDto(Long channelId, String description){
+        this.id=channelId;
+        this.description=description;
     }
 }

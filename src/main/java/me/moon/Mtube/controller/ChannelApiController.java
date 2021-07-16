@@ -5,6 +5,7 @@ import me.moon.Mtube.dto.channel.ChannelResponseDto;
 import me.moon.Mtube.dto.channel.ChannelSaveRequestDto;
 import me.moon.Mtube.dto.channel.ChannelUpdateRequestDto;
 import me.moon.Mtube.dto.comment.ChannelCommentResponseDto;
+import me.moon.Mtube.dto.playlist.ChannelPlaylistResponseDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistSaveRequestDto;
 import me.moon.Mtube.dto.playlist.ChannelPlaylistUpdateRequestDto;
 import me.moon.Mtube.dto.user.UserResponseDto;
@@ -55,7 +56,11 @@ public class ChannelApiController {
         channelService.deleteChannel(userDto, channelId);
         return new ResponseEntity(new Message("channel delete success!"), HttpStatus.OK);
     }
-
+    //채널 플레이리스트 조회
+    @GetMapping("/{channelId}/playlist")
+    public List<ChannelPlaylistResponseDto> getChannelPlaylist(@PathVariable("channelId") Long channelId){
+        return channelService.getChannelPlaylist(channelId);
+    }
     //채널 플레이리스트 생성
     @PostMapping("/{channelId}/playlist")
     public ResponseEntity addChannelPlaylist(@PathVariable("channelId") Long channelId, @RequestBody ChannelPlaylistSaveRequestDto saveRequestDto){
