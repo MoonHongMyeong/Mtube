@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ChannelCommentResponseDto {
+    private Long id;
     private Long user_id;
     private String content;
     private int like_count;
