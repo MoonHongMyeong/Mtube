@@ -17,8 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.channels.Channel;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,5 +52,20 @@ public class StudioApiController {
         String url = "localhost:"+port+"/api/v1/studio/"+channelId+"/comment/"+commentId+"/heart";
 
         mvc.perform(put(url).session(session)).andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("채널의 포스트에 달린 댓글에 지우기")
+    public void deleteCommentByPostOwner() throws Exception{
+        LoginUserDto userDto = userMapper.findUserByEmail("test@test.com");
+        MockHttpSession session = new MockHttpSession();
+
+        Long channelId = channelMapper.getChannelIdByChannelName("testChannel");
+        Long commentId = commentMapper.videoOwnerGetCommentList(channelId).get(0).getId();
+        session.setAttribute("USER", userDto);
+
+        String url = "localhost:"+port+"/api/v1/studio/"+channelId+"/comment/"+commentId;
+
+        mvc.perform(delete(url).session(session)).andExpect(status().isOk());
     }
 }
